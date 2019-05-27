@@ -33,7 +33,7 @@ La proposition Streamflow introduit des mises à jour du protocole Livepeer et d
     * [Livepeer Token](#livepeer-token)
     * [La délégation en tant que signal de sécurité et de réputation](#délégation-en-tant-que-signal-de-sécurité-et-de-réputation)
     * [Inflation dans les états liés et délégués apathiques](#inflation-dans-les-etats-liés-et-délégués-apathiques)
-    * [Considérations d'ingénierie hors chaîne](#considérations-d-ingénierie-hors-chaîne)
+    * [Considérations d'ingénierie hors chaîne](#considérations-pour-ingénierie-hors-chaîne)
 * [Les attaques](#les-attaques)
     * [Pressant délégué](#presser-les-délégués)
     * [Vol des Frais de Délégation](#vol-des-frais-de-délégation)
@@ -254,7 +254,7 @@ Alors que le taux d'inflation est susceptible de diminuer avec une utilisation r
 
 En outre, les orchestrateurs qui ont déjà eu besoin d'attirer des délégations extérieures pour atteindre la mise minimale, accumulent suffisamment de participations pour sécuriser leur propre node, peuvent donc réduire leur part des frais. À ce stade, un délégant optimisateur serait mieux servi en recherchant un nouveau nœud en devenir - essentiellement un node pouvant étendre l'empreinte du réseau - qui pourrait offrir une quote-part de redevance plus élevée afin d'attirer une participation. C’est cette assurance qualité constante effectuée par le mandant qui optimise ses efforts, ainsi que le compromis entre la rémunération et les frais qui créeront une concurrence constante et favoriseront la décentralisation du réseau.
 
-### Considérations D'ingénierie Hors Chaîne
+### Considérations Pour Ingénierie Hors Chaîne
 Comme mentionné précédemment, l'une des principales philosophies de Streamflow consiste à déplacer de nombreux avis sur les valeurs de paramètre valides et les interactions p2p hors du protocole principal et dans les implémentations et les configurations client. La mise en œuvre et la configuration multiples de ces paramètres conduiront à un réseau robuste, résistant aux attaques et aux acteurs malveillants. Cependant, étant donné que le protocole lui-même a moins d'opinion, beaucoup reste à mettre en œuvre par le client. Voici quelques-unes des principales considérations à prendre en compte du point de vue de l'ingénierie pour que Streamflow fonctionne vraiment efficacement:
 
 * Stratégies de gestion des risques liés à la gestion de projet - lorsqu'un orchestrateur doit travailler avec ou non avec un diffuseur en fonction de sa réputation et de son historique, et inversement.
