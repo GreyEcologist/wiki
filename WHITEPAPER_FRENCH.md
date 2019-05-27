@@ -29,7 +29,7 @@ Le projet Livepeer vise à fournir un protocole réseau de streaming vidéo en d
         * [Une note sur Truebit]
     * [Génération de tokens]
     * [Slashing]
-    * [Distribution de tokens]
+    * [Distribution de tokens](#distribution-de-tokens)
     * [La gouvernance]
 * [Les attaques]
     * [Attaques de consensus]
@@ -47,7 +47,7 @@ Le projet Livepeer vise à fournir un protocole réseau de streaming vidéo en d
 * [Appendice]
     * [Référence de paramètre de protocole Livepeer]
     * [Types de transaction de protocole Livepeer]
-* [Références]
+* [Références](#Références)
 
 *Remarque: Ce document a été publié pour la première fois en avril 2017. Une proposition d’augmentation de capacité appelée «Streamflow» a été proposée en décembre 2018. Elle propose certaines itérations et améliorations concernant certaines des idées présentées ci-dessous. Lisez la proposition pour [Streamflow ici](https://github.com/livepeer/wiki/blob/master/STREAMFLOW.md).*
 
@@ -98,66 +98,46 @@ Le protocole Livepeer est conçu pour traiter à la fois la vérification du tra
 
 L'unité de base des médias au sein de Livepeer est ce que nous appellerons un `segment`. Un segment est un bloc découpé dans le temps d'audio multiplexé et de vidéo de durée `t`. Chaque segment du réseau Livepeer est unique et contient les preuves cryptographiques permettant de vérifier que le diffuseur a prévu ces données spécifiques pour ce segment spécifique. Chaque flux est composé de nombreux segments consécutifs, chacun contenant un numéro de séquence identifiant leur ordre approprié. Un segment contient les champs suivants:
 
-
-Champ de segment vidéo
-La description
-StreamID
-Identifie le node d'origine et le flux auxquels ce segment appartient.
-SequenceNumber
-L'ordre séquentiel auquel ce segment appartient dans le flux d'origine.
-DataPayload
-Les métadonnées binaires et les données représentant l'audio / vidéo dans ce segment.
-DataHash
-Le hachage de la charge de données.
-BroadcasterSignature
-Une signature du diffuseur de
-Priv(StreamID, SequenceNumber, hash(StreamID, SequenceNumber, DataHash)) qui peut être utilisé pour attester et vérifier que le radiodiffuseur prétend qu'il s'agit des vraies données pour ce segment unique.
+| Champ de segment vidéo | La description |
+|--------|--------|
+| **StreamID** | Identifie le node d'origine et le flux auxquels ce segment appartient. |
+| **SequenceNumber** | L'ordre séquentiel auquel ce segment appartient dans le flux d'origine. |
+| **DataPayload** | Les métadonnées binaires et les données représentant l'audio / vidéo dans ce segment. |
+| **DataHash** | Le hachage de la charge de données. |
+| **BroadcasterSignature** | Une signature du diffuseur de `Priv(StreamID, SequenceNumber, hash(StreamID, SequenceNumber, DataHash))` qui peut être utilisé pour attester et vérifier que le radiodiffuseur prétend qu'il s'agit des vraies données pour ce segment unique. |
 
 Le protocole Livepeer utilise généralement des segments comme unité de travail pour le transcodage, la distribution et les paiements.
 
-
-Le Livepeer Token
+### Le Livepeer Token
 
 Le Livepeer Token (LPT) est le token de protocole du réseau Livepeer. Mais ce n'est pas le moyen d'échange. Les radiodiffuseurs utilisent l'éther Ethereum (ETH) pour diffuser des vidéos sur le réseau. Les nodes qui contribuent au traitement et à la bande passante gagnent en ETH sous la forme de redevances des diffuseurs. LPT est un signe que les participants qui souhaitent travailler sur l’enjeu du réseau afin de coordonner la répartition du travail sur le réseau et de garantir que le travail sera effectué honnêtement et correctement. LPT a les buts suivants:
 
-Il sert de mécanisme de liaison dans un système de preuve de participation déléguée, dans lequel la participation est déléguée à des transcodeurs (ou validateurs) qui participent au protocole pour transcoder une vidéo et valider le travail. Le token et la réduction potentielle résultant d'une violation de protocole sont nécessaires pour sécuriser le réseau contre un certain nombre d'attaques. Plus ci-dessous.
-Il achemine le travail à travers le réseau proportionnellement à la quantité de tokens implicites et délégués, servant essentiellement de mécanisme de coordination.
-Il s’agit d’une unité de compte spécifique à l’écosystème Livepeer, qui constitue la base du concept SectorCoin, applicable aux fonctionnalités supplémentaires devant être introduites à l’avenir [4]. Des services tels que les enregistreurs numériques, les sous-titres codés, l’insertion / la monétisation d’annonces et les outils d’analyse peuvent tous s’intégrer à l’écosystème Livepeer et potentiellement utiliser la sécurité fournie par l’implémentation LPT.
+- Il sert de mécanisme de liaison dans un système de preuve de participation déléguée, dans lequel la participation est déléguée à des transcodeurs (ou validateurs) qui participent au protocole pour transcoder une vidéo et valider le travail. Le token et la réduction potentielle résultant d'une violation de protocole sont nécessaires pour sécuriser le réseau contre un certain nombre d'attaques. Plus ci-dessous.
+- Il achemine le travail à travers le réseau proportionnellement à la quantité de tokens implicites et délégués, servant essentiellement de mécanisme de coordination.
+- Il s’agit d’une unité de compte spécifique à l’écosystème Livepeer, qui constitue la base du concept SectorCoin, applicable aux fonctionnalités supplémentaires devant être introduites à l’avenir [[4](#Références)]. Des services tels que les enregistreurs numériques, les sous-titres codés, l’insertion / la monétisation d’annonces et les outils d’analyse peuvent tous s’intégrer à l’écosystème Livepeer et potentiellement utiliser la sécurité fournie par l’implémentation LPT.
 
 
-Une allocation initiale de token Livepeer sera distribuée de sorte que les parties prenantes puissent remplir différents rôles dans le réseau et l’utiliser, puis un token supplémentaire sera émis en fonction de l’émission programmée par algorithme dans le temps. Voir la section Distribution de tokens.
+Une allocation initiale de token Livepeer sera distribuée de sorte que les parties prenantes puissent remplir différents rôles dans le réseau et l’utiliser, puis un token supplémentaire sera émis en fonction de l’émission programmée par algorithme dans le temps. Voir la section [distribution de tokens](#distribution-de-tokens).
 
-Suivant les conventions d'Ethereum et de nombreux tokens populaires ERC20 [16], LPT sera divisible par 10 ^ 18, avec des dénominations plus grandes, telles que le LPT lui-même destiné à être utilisé pour des transactions au niveau utilisateur telles que le jalonnement, et des dénominations plus petites destinées à être utilisées pour la comptabilité de protocole.
+Suivant les conventions d'Ethereum et de nombreux tokens populaires ERC20 [[16](#Références)], LPT sera divisible par 10 ^ 18, avec des dénominations plus grandes, telles que le LPT lui-même destiné à être utilisé pour des transactions au niveau utilisateur telles que le jalonnement, et des dénominations plus petites destinées à être utilisées pour la comptabilité de protocole.
 
-
-Rôles de protocole
+### Rôles de protocole
 
 Avant de poursuivre, définissons les rôles dans le réseau afin qu’il existe un vocabulaire commun pour la discussion du protocole. Un nœud Livepeer est un ordinateur exécutant le logiciel Livepeer.
 
-Rôle du node
-La description
-Diffuseur
-Node Livepeer publiant le flux d'origine.
-Transcodeur
-Node Livepeer effectuant le travail de transcodage du flux dans un autre format de codec, de débit binaire ou de conditionnement.
-Node de relais
-
-
-Node Livepeer participant à la distribution de vidéo en direct et à la transmission de messages de protocole, mais n’effectuant pas nécessairement de transcodage.
-Consommateur
-Node Livepeer demandant le flux, susceptible de le visualiser ou de le servir via une passerelle vers leur application ou les utilisateurs de DApp.
+| Rôle du node | La description | 
+|--------|-----------|
+| **Diffuseur** | Node Livepeer publiant le flux d'origine. |
+| **Transcodeur** | Node Livepeer effectuant le travail de transcodage du flux dans un autre format de codec, de débit binaire ou de conditionnement. |
+| **Node de relais** | Node Livepeer participant à la distribution de vidéo en direct et à la transmission de messages de protocole, mais n’effectuant pas nécessairement de transcodage. |
+| **Consommateur** | Node Livepeer demandant le flux, susceptible de le visualiser ou de le servir via une passerelle vers leur application ou les utilisateurs de DApp. |
 
 En plus des rôles ci-dessus joués par les utilisateurs exécutant des nodes Livepeer, le protocole fera également référence aux systèmes suivants. Bien que nous utilisions certains systèmes spécifiques pour faire référence à une implémentation possible, d'autres systèmes peuvent également être basculés s'ils offrent des fonctionnalités et des garanties crypto-économiques similaires:
 
-
-Rôle du système
-La description
-Swarm
-Contenu adressé plate-forme de stockage. Il est possible de garantir la disponibilité temporaire des données pendant le processus de vérification via le protocole SWEAR [7, 12]. (Remarque: dans ce document, nous faisons référence à Swarm, mais d'autres plates-formes de stockage à contenu adressé peuvent être remplacées si la disponibilité des données peut être garantie avec une probabilité élevée)
-Livepeer Smart Contract
-Contrat intelligent fonctionnant sur le réseau Ethereum [1].
-Truebit
-Protocole de vérification Blackbox qui garantit l'exactitude du calcul placé sur la chaîne (à un coût élevé) [6]. (http://truebit.io)
+| Rôle du système | La description | 
+| **Swarm** | Contenu adressé plate-forme de stockage. Il est possible de garantir la disponibilité temporaire des données pendant le processus de vérification via le protocole SWEAR [7, 12]. (Remarque: dans ce document, nous faisons référence à Swarm, mais d'autres plates-formes de stockage à contenu adressé peuvent être remplacées si la disponibilité des données peut être garantie avec une probabilité élevée)
+| **Livepeer Smart Contract** | Contrat intelligent fonctionnant sur le réseau Ethereum [1]. |
+| **Truebit** | Protocole de vérification Blackbox qui garantit l'exactitude du calcul placé sur la chaîne (à un coût élevé) [6]. (http://truebit.io) |
 
 Voici un aperçu visuel des rôles et de la manière dont ils communiquent dans le processus de vérification du travail décrit ci-dessous.
 
