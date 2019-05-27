@@ -1,19 +1,20 @@
-Livre Blanc Livepeer Streamflow
-Évolutivité de Livepeer sur Ethereum via orchestration, micropaiements probabilistes et négociation de tâches hors chaîne
+# Livre Blanc Livepeer Streamflow
 
-Auteurs
-Doug Petkanics doug@livepeer.org
-Yondon Fu yondon@livepeer.org
+**Évolutivité de Livepeer sur Ethereum via orchestration, micropaiements probabilistes et négociation de tâches hors chaîne**
 
-Chercheurs
-Eric Tang eric@livepeer.org
-Philipp Angele philipp@livepeer.org
-Josh Allmann josh@livepeer.org
+**Auteurs**
+Doug Petkanics <doug@livepeer.org>
+Yondon Fu <yondon@livepeer.org>
 
-STATUS: PROPOSITION - Des commentaires et des revues sont demandés sur cette première proposition.
+**Chercheurs**
+Eric Tang <eric@livepeer.org>
+Philipp Angele <philipp@livepeer.org>
+Josh Allmann <josh@livepeer.org>
+
+**STATUS: PROPOSITION - Des commentaires et des revues sont demandés sur cette première proposition.**
 
 
-Abstrait
+## Abstrait #####################################
 
 La proposition Streamflow introduit des mises à jour du protocole Livepeer et des implémentations hors chaîne qui permettront à Livepeer de s’adapter au-delà des limites actuelles du protocole alpha déployé dans la blockchain Ethereum. Il suggère des mises à jour qui abordent les questions d’abordabilité, de fiabilité, de performance et d’évolutivité du réseau. Les éléments clés sont introduits, notamment un registre de services, un mécanisme de négociation et de paiement hors connexion, une séparation entre les nodes d’orchestration et de transcodage, l’élimination de la solution du problème de disponibilité des données en tant que dépendance de la vérification sans confiance et l’ouverture du nombre de nodes qui peuvent rivaliser pour effectuer des travaux sur le réseau à partir des limites arbitraires basses au cours de l’alpha. L’architecture résultante permettra aux utilisateurs du réseau d’effectuer des travaux de transcodage à grande échelle sur le réseau auprès de nombreux fournisseurs de travaux simultanés, tout en réduisant considérablement l’impact de la demande et de la volatilité des prix de la blockchain sous-jacente sur la viabilité économique de l’utilisation du réseau.
 
