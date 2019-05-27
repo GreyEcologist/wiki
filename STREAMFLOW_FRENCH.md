@@ -26,13 +26,13 @@ La proposition Streamflow introduit des mises à jour du protocole Livepeer et d
     * [Orchestrateurs et transcodeurs](#orchestrateurs-et-transcodeurs)
     * [Assouplissement de la sécurité du transcodeur et de la sécurité renforcée](#assouplissement-de-la-sécurité-du-transcodeur-et-de-la-sécurité-renforcée)
     * [Registre de service](#registre-de-service)
-    * [Négociation des emplois hors chaîne](#négociation-des-travailles-hors-chaîne)
+    * [Négociation des travailles hors chaîne](#négociation-des-travailles-hors-chaîne)
     * [Micropaiements probabilistes](#micropaiements-probabilistes)
     * [Vérification de la chaîne basée sur l'erreur](#vérification-de-la-chaîne-basée-sur-la-faute)
 * [Analyse économique](#analyse-economique)
     * [Livepeer Token](#livepeer-token)
     * [La délégation en tant que signal de sécurité et de réputation](#délégation-en-tant-que-signal-de-sécurité-et-de-réputation)
-    * [Inflation dans les états liés et délégués apathiques](#inflation-dans-l'état-de-servitude-et-délégués-apathiques)
+    * [Inflation dans les états liés et délégués apathiques](#inflation-dans-les-etats-liés-et-délégués-apathiques)
     * [Considérations d'ingénierie hors chaîne](#considérations-d'ingénierie-hors-chaîne)
 * [Les attaques](#les-attaques)
     * [Pressant délégué](#presser-les-délégués)
@@ -245,7 +245,7 @@ Un résultat négatif que les gens pourraient prévoir est que les nodes qui gag
 
 Alors que les nouveaux nodes cherchent à concurrencer pour travailler sur le réseau, ils peuvent avoir besoin d'attirer suffisamment de participation pour offrir la sécurité requise par les diffuseurs. Dans ces cas, il est probable que ces nodes définiraient un partage des frais plus important. Les délégants actifs auront la possibilité de rechercher et de s’intéresser aux nodes qui gagnent des portions démesurées de travaux, avec des parts de redevance plus importantes, ce qui entraîne des ratios de redevance plus élevés. En bref, la participation déléguée peut assurer la sécurité et acheminer le travail en échange de frais partagés lorsque le travail est bien exécuté. Une délégation active peut conduire à donner aux nodes plus opportunistes la possibilité d'étendre de manière compétitive l'empreinte et les capacités du réseau.
 
-### Inflation dans L'état de Servitude et Délégués Apathiques
+### Inflation dans les Etats Liés et Délégués Apathiques
 L'une des critiques du modèle de jeu d'enjeu sans plafond, sans enjeu minimum, est qu'il permet un comportement paresseux de la part des délégants. Le LPT inflationniste continue de s'accumuler dans l'état lié, continue de s'aggraver et permet au délégant de l'installer et de l'oublier tout en collectant le LPT sans ajouter de valeur significative au réseau.
 
 Cela peut être le cas aux tout premiers jours du réseau, avant que les frais ne constituent une incitation supplémentaire pour les délégués, mais il est peu probable que les orchestrateurs soient en concurrence pour travailler, gagner de l'argent et distribuer des frais. À ce stade, le comportement du pilote automatique peut toujours générer une augmentation du LPT, mais renoncerait aux frais potentiels pouvant être générés par le passage à des orchestrateurs générant un rapport ETH / LPT plus élevé.
