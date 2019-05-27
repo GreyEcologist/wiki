@@ -33,7 +33,7 @@ La proposition Streamflow introduit des mises à jour du protocole Livepeer et d
     * [Livepeer Token](#livepeer-token)
     * [La délégation en tant que signal de sécurité et de réputation](#délégation-en-tant-que-signal-de-sécurité-et-de-réputation)
     * [Inflation dans les états liés et délégués apathiques](#inflation-dans-les-etats-liés-et-délégués-apathiques)
-    * [Considérations d'ingénierie hors chaîne](#considérations-d'ingénierie-hors-chaîne)
+    * [Considérations d'ingénierie hors chaîne](#considérations-d-ingénierie-hors-chaîne)
 * [Les attaques](#les-attaques)
     * [Pressant délégué](#presser-les-délégués)
     * [Vol des Frais de Délégation](#vol-des-frais-de-délégation)
