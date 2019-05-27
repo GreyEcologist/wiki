@@ -135,30 +135,30 @@ Avant de poursuivre, définissons les rôles dans le réseau afin qu’il existe
 En plus des rôles ci-dessus joués par les utilisateurs exécutant des nodes Livepeer, le protocole fera également référence aux systèmes suivants. Bien que nous utilisions certains systèmes spécifiques pour faire référence à une implémentation possible, d'autres systèmes peuvent également être basculés s'ils offrent des fonctionnalités et des garanties crypto-économiques similaires:
 
 | Rôle du système | La description | 
-| **Swarm** | Contenu adressé plate-forme de stockage. Il est possible de garantir la disponibilité temporaire des données pendant le processus de vérification via le protocole SWEAR [7, 12]. (Remarque: dans ce document, nous faisons référence à Swarm, mais d'autres plates-formes de stockage à contenu adressé peuvent être remplacées si la disponibilité des données peut être garantie avec une probabilité élevée)
-| **Livepeer Smart Contract** | Contrat intelligent fonctionnant sur le réseau Ethereum [1]. |
-| **Truebit** | Protocole de vérification Blackbox qui garantit l'exactitude du calcul placé sur la chaîne (à un coût élevé) [6]. (http://truebit.io) |
+|--------|-----------|
+| **Swarm** | Contenu adressé plate-forme de stockage. Il est possible de garantir la disponibilité temporaire des données pendant le processus de vérification via le protocole SWEAR [[7, 12](#Références)]. (Remarque: dans ce document, nous faisons référence à Swarm, mais d'autres plates-formes de stockage à contenu adressé peuvent être remplacées si la disponibilité des données peut être garantie avec une probabilité élevée)
+| **Livepeer Smart Contract** | Contrat intelligent fonctionnant sur le réseau Ethereum [[1](#Références)]. |
+| **Truebit** | Protocole de vérification Blackbox qui garantit l'exactitude du calcul placé sur la chaîne (à un coût élevé) [[6](#Références)]. (<http://truebit.io>) |
 
 Voici un aperçu visuel des rôles et de la manière dont ils communiquent dans le processus de vérification du travail décrit ci-dessous.
 
-[Image]
+<img src="https://livepeer-dev.s3.amazonaws.com/docs/lpprotocol.png" alt="Protocol Visual Overview" style="width: 750px"> 
 
-Segments allant du diffuseur au transcodeur et finalement au consommateur. Le transcodeur s'assure qu'il dispose de signatures et d'une preuve de travail pour participer à la procédure de vérification du travail.
+*Segments allant du diffuseur au transcodeur et finalement au consommateur. Le transcodeur s'assure qu'il dispose de signatures et d'une preuve de travail pour participer à la procédure de vérification du travail.*
 
-Remarque sur les transcodeurs: Les transcodeurs jouent le rôle le plus important dans l'écosystème Livepeer. Ce sont eux qui prennent un flux d’entrée et le convertissent dans de nombreux formats différents de manière opportune pour une distribution à faible temps de latence. En tant que tels, ils bénéficient d'une haute disponibilité, d'un matériel efficace et puissant (potentiellement avec le transcodage accéléré par GPU), de connexions à bande passante élevée et de pratiques éprouvées de DevOps. Les transcodeurs doivent beaucoup moins fonctionner que les autres participants du réseau, car lorsqu’ils s’occupent de transcoder un flux, il n’est pas idéal de laisser tomber le réseau. Bien que le réseau puisse prendre en charge de nombreux participants jouant le rôle de transcodeur (et obtenant les attributions de jetons requises), il s'agit d'un rôle spécial délégué de la plupart des participants au réseau, afin de garantir le maintien d'un réseau fiable offrant de la valeur aux diffuseurs. Plus ci-dessous sur cette délégation.
+**Remarque sur les transcodeurs**: Les transcodeurs jouent le rôle le plus important dans l'écosystème Livepeer. Ce sont eux qui prennent un flux d’entrée et le convertissent dans de nombreux formats différents de manière opportune pour une distribution à faible temps de latence. En tant que tels, ils bénéficient d'une haute disponibilité, d'un matériel efficace et puissant (potentiellement avec le transcodage accéléré par GPU), de connexions à bande passante élevée et de pratiques éprouvées de DevOps. Les transcodeurs doivent beaucoup moins fonctionner que les autres participants du réseau, car lorsqu’ils s’occupent de transcoder un flux, il n’est pas idéal de laisser tomber le réseau. Bien que le réseau puisse prendre en charge de nombreux participants jouant le rôle de transcodeur (et obtenant les attributions de jetons requises), il s'agit d'un rôle spécial délégué de la plupart des participants au réseau, afin de garantir le maintien d'un réseau fiable offrant de la valeur aux diffuseurs. Plus ci-dessous sur cette délégation.
 
+### Consensus
 
-Consensus
 Livepeer a un système de consensus à deux couches. Le grand livre et les transactions LPT sont sécurisés par la blockchain sous-jacente, telle que Ethereum. Tout transfert du token LPT ou toute transaction dans le système peut être considéré comme ayant été confirmé avec la même sécurité que la preuve de travail sous-jacente ou la preuve de blocage de la mise. La deuxième couche, cependant, dicte la distribution du LPT nouvellement généré. Ceci est régi par le smart contrat Livepeer et la participation au protocole de divers acteurs. Bien qu'aucun consensus ne soit requis à proprement parler, en termes d'acceptation et de validation des blocs précédents, le protocole définit des règles de participation et les conditions dans lesquelles les acteurs seront sanctionnés pour ne pas s'être acquittés de leur rôle.
 
-Ce deuxième niveau de consensus régissant le token nouvellement généré est basé sur la délégation de preuve (DPOS), inspirée par des systèmes tels que Bitshares, Steem, Tendermint et Casper [5, 9, 10, 11]. Les transcodeurs jouent le rôle de validateurs dans le réseau. Tout utilisateur peut déléguer sa participation à un transcodeur, qui doit ensuite effectuer des tâches de transcodage sur le réseau, participer au protocole de vérification du travail et appeler des fonctions sur une chaîne à des intervalles spécifiques pour valider ce travail. Le protocole distribuera des frais et des jetons nouvellement générés, et réduira les enjeux d'acteurs mal comportés. Le résultat de la validation sera enregistré sur la chaîne via Truebit une fois la validation effectuée. Il n'y aura donc plus de place pour des litiges entre le diffuseur et le transcodeur.
+Ce deuxième niveau de consensus régissant le token nouvellement généré est basé sur la délégation de preuve (DPOS), inspirée par des systèmes tels que Bitshares, Steem, Tendermint et Casper [[5, 9, 10, 11](#Références)]. Les transcodeurs jouent le rôle de validateurs dans le réseau. Tout utilisateur peut déléguer sa participation à un transcodeur, qui doit ensuite effectuer des tâches de transcodage sur le réseau, participer au protocole de vérification du travail et appeler des fonctions sur une chaîne à des intervalles spécifiques pour valider ce travail. Le protocole distribuera des frais et des jetons nouvellement générés, et réduira les enjeux d'acteurs mal comportés. Le résultat de la validation sera enregistré sur la chaîne via Truebit une fois la validation effectuée. Il n'y aura donc plus de place pour des litiges entre le diffuseur et le transcodeur.
 
+### Collage + Délégation
 
-Collage + Délégation
+Dans Livepeer, pour indiquer une participation dans le réseau, les nodes doivent lier une partie de leur LPT. Ils le font par le biais de la transaction `Bond()`, qui lie leur participation au contrat intelligent jusqu’à ce qu’ils `Unbond()` se lient (), auquel cas ils entrent dans un état non lié qui durera une `UnbondingPeriod`. À la fin de la `UnbondingPeriod`, ils peuvent alors retirer leur LPT.
 
-Dans Livepeer, pour indiquer une participation dans le réseau, les nodes doivent lier une partie de leur LPT. Ils le font par le biais de la transaction Bond (), qui lie leur participation au contrat intelligent jusqu’à ce qu’ils délient () se lient (), auquel cas ils entrent dans un état non lié qui durera pendant un temps. À la fin de la période de désabonnement, ils peuvent alors retirer leur LPT.
-
-Le montant cautionné est utilisé pour déléguer la participation à un transcodeur. Le réseau prend en charge simultanément N transcodeurs actifs, ce qui est un paramètre de réseau mobile. Tout node peut indiquer qu’il souhaite devenir un transcodeur avec une transaction Transcoder () et le protocole sélectionnera les N transcodeurs dont l’enjeu est le plus cumulatif (leur propre + délégués d’autres nodes) au début de chaque tour, avec un transcodeur aléatoire de la liste d'attente.
+Le montant cautionné est utilisé pour déléguer la participation à un transcodeur. Le réseau prend en charge simultanément `N` transcodeurs actifs, ce qui est un paramètre de réseau mobile. Tout node peut indiquer qu’il souhaite devenir un transcodeur avec une transaction `Transcoder()` et le protocole sélectionnera les `N` transcodeurs dont l’enjeu est le plus cumulatif (leur propre + délégués d’autres nodes) au début de chaque tour, avec un transcodeur aléatoire de la liste d'attente.
 
 Le token nouvellement généré dans Livepeer est distribué aux nodes liés en proportion relative par rapport à la quantité de travail qu'ils ont liée (moins les frais), tant qu'ils ont été délégués vers des nodes de transcodage se comportant conformément au protocole. Les obligations peuvent être réduites (réduites d’un certain pourcentage) si les nodes auxquels ils ont délégué ne se comportent pas et ne violent pas l’une des conditions de réduction. Les nodes qui se sont liés et ont délégué à un transcodeur reçoivent également une partie des frais générés par le transcodeur par le biais de travaux de transcodage sur le réseau. En substance, les nodes qui effectuent un travail gagnent les droits que les radiodiffuseurs ont payés pour ce travail.
 
@@ -166,21 +166,20 @@ Lorsque ce document utilise le terme "délégant", il fait référence aux nodes
 
 En résumé, les participants choisissent de lier leur mise pour les raisons suivantes:
 
-Participez à la délégation vers des transcodeurs efficaces qui fourniront un excellent service au réseau, assurant sa valeur aux radiodiffuseurs.
-Construire une réputation et une allocation de travail futur sous forme de jeton alloué proportionnellement à la mise.
-Gagnez des frais générés par les transcodeurs.
-Ils souhaiteront peut-être devenir un transcodeur.
+- Participez à la délégation vers des transcodeurs efficaces qui fourniront un excellent service au réseau, assurant sa valeur aux radiodiffuseurs.
+- Construire une réputation et une allocation de travail futur sous forme de jeton alloué proportionnellement à la mise.
+- Gagnez des frais générés par les transcodeurs.
+- Ils souhaiteront peut-être devenir un transcodeur.
 
+### Transcoder() Transaction
 
-Transcoder() Transaction
+Un node indique sa volonté de devenir un transcodeur en soumettant une transaction `Transcoder()`, qui publie les trois propriétés suivantes:
 
-Un node indique sa volonté de devenir un transcodeur en soumettant une transaction Transcoder(), qui publie les trois propriétés suivantes:
+- `PricePerSegment`: le prix le plus bas qu'ils sont disposés à accepter pour transcoder un segment de vidéo.
+- `BlockRewardCut`: Le % de la récompense de bloc que les nodes liés les paieront pour le service de transcodage. (Example 2%. Si un node lié devait recevoir 100 LPT en récompense de bloc, 2 LPT au transcodeur).
+- `FeeShare`: pourcentage des frais de diffusion des travaux que le transcodeur est disposé à partager avec les nodes liés qui délèguent leurs tâches. (Exemple 25%. Si un transcodeur recevait 100 ETH en frais, il devrait payer 25 ETH aux nodes liés).
 
-PricePerSegment: le prix le plus bas qu'ils sont disposés à accepter pour transcoder un segment de vidéo.
-BlockRewardCut: Le % de la récompense de bloc que les nodes liés les paieront pour le service de transcodage. (Exemple 2%. Si un node lié devait recevoir 100 LPT en récompense de bloc, 2 LPT au transcodeur).
-FeeShare: pourcentage des frais de diffusion des travaux que le transcodeur est disposé à partager avec les nodes liés qui délèguent leurs tâches. (Exemple 25%. Si un transcodeur recevait 100 ETH en frais, il devrait payer 25 ETH aux nodes liés).
-
-Le transcodeur peut mettre à jour leur disponibilité et ses informations jusqu’à RoundLockAmount, avant le prochain cycle de transcodage. Ceci est offert en % du tour. (Exemple 10% == 2,4 heures. Ils peuvent modifier cette information jusqu'à 2,4 heures avant le prochain tour de transcodage qui dure 1 jour). Cela donne aux nodes cautionnés la possibilité de réviser le partage des frais et le partage des récompenses par tokens par rapport aux autres transcodeurs, ainsi que les frais anticipés basés sur le tarif qu'ils facturent et la demande du réseau, et de transférer leur participation déléguée s'ils le souhaitent. Au début d’un tour de transcodage (déclenché par un appel à la transaction InitializeRound()), les transcodeurs actifs pour ce tour sont déterminés en fonction de la mise totale déléguée à chaque transcodeur, et les enjeux et les taux sont bloqués pendant la durée du tour.
+Le transcodeur peut mettre à jour leur disponibilité et ses informations jusqu’à `RoundLockAmount`, avant le prochain cycle de transcodage. Ceci est offert en % du tour. (Exemple 10% == 2,4 heures. Ils peuvent modifier cette information jusqu'à 2,4 heures avant le prochain tour de transcodage qui dure 1 jour). Cela donne aux nodes cautionnés la possibilité de réviser le partage des frais et le partage des récompenses par tokens par rapport aux autres transcodeurs, ainsi que les frais anticipés basés sur le tarif qu'ils facturent et la demande du réseau, et de transférer leur participation déléguée s'ils le souhaitent. Au début d’un tour de transcodage (déclenché par un appel à la transaction InitializeRound()), les transcodeurs actifs pour ce tour sont déterminés en fonction de la mise totale déléguée à chaque transcodeur, et les enjeux et les taux sont bloqués pendant la durée du tour.
 
 Un changement est autorisé pendant RoundLockPeriod: le prix / segment proposé le plus bas pour l'un des transcodeurs candidats est verrouillé et ne peut pas être déplacé, mais d'autres candidats au transcodeur peuvent ajuster leur prix / segment à la baisse. Cela leur permet de faire correspondre le prix proposé le plus bas sur le réseau s'ils le souhaitent afin de garantir leur part du travail pondérée en fonction de la mise sur le réseau. Ils ne sont pas autorisés à augmenter le prix offert pendant cette période.
 
@@ -578,20 +577,5 @@ ERC20 Token Standard - https://github.com/ethereum/EIPs/issues/20
 Peer5 leverages viewers’ devices for a P2P approach to streaming video - https://techcrunch.com/2017/01/26/peer5-y-combinator/
 Peer-to-Peer Streaming Peer Protocol - https://tools.ietf.org/html/rfc7574
 Inflation and Participation in Stake Based Protocols - Doug Petkanics - https://medium.com/@petkanics/inflation-and-participation-in-stake-based-token-protocols-1593688612bf
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
