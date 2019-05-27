@@ -21,31 +21,31 @@ La proposition Streamflow introduit des mises à jour du protocole Livepeer et d
 
 ## Table des Matières #####################################
 
-* [Introduction et contexte]
-* [Proposition de protocole de flux]
-    * [Orchestrateurs et transcodeurs]
-    * [Assouplissement de la sécurité du transcodeur et de la sécurité renforcée]
-    * [Registre de service]
-    * [Négociation des emplois hors chaîne]
-    * [Micropaiements probabilistes]
-    * [Vérification de la chaîne basée sur l'erreur]
-* [Analyse économique]
-    * [Jeton de Livepeer]
-    * [La délégation en tant que signal de sécurité et de réputation]
-    * [Inflation dans les états liés et délégués apathiques]
-    * [Considérations d'ingénierie hors chaîne]
-* [Les attaques]
-    * [Pressant délégué]
-    * [Délégation de vol]
-* [Zones de recherche ouvertes]
-    * [Vérification non déterministe]
-    * [Protocoles de reservoir de transcodeur publics]
-    * [Diffuseur Doublespend Mitigation]
-    * [Paiements VOD]
-* [Voie de migration]
-* [Annexe]
-    * [Annexe A: Flux de travail probabiliste sur les micro-paiements]
-* [Références]
+* [Introduction et contexte](#introduction-et-contexte)
+* [Proposition Streamflow](#proposition-streamflow)
+    * [Orchestrateurs et transcodeurs](#orchestrateurs-et-transcodeurs)
+    * [Assouplissement de la sécurité du transcodeur et de la sécurité renforcée](#assouplissement-de-la-sécurité-du-transcodeur-et-de-la-sécurité-renforcée)
+    * [Registre de service](#registre-de-service)
+    * [Négociation des emplois hors chaîne](#négociation-des-travailles-hors-chaîne)
+    * [Micropaiements probabilistes](#micropaiements-probabilistes)
+    * [Vérification de la chaîne basée sur l'erreur](#vérification-de-la-chaîne-basée-sur-la-faute)
+* [Analyse économique](#analyse-economique)
+    * [Livepeer Token](#livepeer-token)
+    * [La délégation en tant que signal de sécurité et de réputation](#délégation-en-tant-que-signal-de-sécurité-et-de-réputation)
+    * [Inflation dans les états liés et délégués apathiques](#inflation-dans-l'état-de-servitude-et-délégués-apathiques)
+    * [Considérations d'ingénierie hors chaîne](#considérations-d'ingénierie-hors-chaîne)
+* [Les attaques](#les-attaques)
+    * [Pressant délégué](#presser-les-délégués)
+    * [Vol des Frais de Délégation](#vol-des-frais-de-délégation)
+* [Zones de recherche ouvertes](#zones-de-recherche-ouvertes)
+    * [Vérification non déterministe](#vérification-non-déterministe)
+    * [Protocoles de reservoir de transcodeur publics](#Protocoles-de-pool-de-transcodeurs)
+    * [Diffuseur Pour la Mitigation des Doublespend](#diffuseur-pour-la-mitigation-des-doublespend)
+    * [Paiements VOD](#paiements-vidéo-à-la-demande)
+* [Voie de migration](#voie-de-migration)
+* [Annexe](#Annexe)
+    * [Annexe A: Flux de travail probabiliste sur les micro-paiements](#annexe-a-flux-de-travail-des-micro-paiements-probabilistes)
+* [Références](#Références)
 
 ## Introduction et Contexte #####################################
 
@@ -302,7 +302,7 @@ Les pools publics, dans lesquels l'orchestrateur ne fait pas confiance aux trans
 
 La recherche et la conception sont ici un sujet ouvert.
 
-### Diffuseur Pour la Mitigation des “Doublespend”
+### Diffuseur Pour la Mitigation des Doublespend
 
 Dans un système de micropaiements probabilistes, il est toujours possible qu'un radiodiffuseur ait émis plus de tickets gagnants qu'il ne lui en reste pour payer (accidentellement). Et comme les orchestrateurs ne peuvent pas informer immédiatement le télédiffuseur du billet gagnant, il est difficile d'obtenir une comptabilité exacte du solde du télédiffuseur. Nous poursuivons nos recherches sur les paramètres requis et la gestion des dépôts afin d'éviter une double dépense accidentelle dans le cadre de divers modèles d'utilisation du réseau. Voir l’analyse plus détaillée dans l’annexe sur les micropaiements probabilistes.
 
