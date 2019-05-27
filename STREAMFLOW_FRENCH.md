@@ -2,14 +2,14 @@
 
 **Évolutivité de Livepeer sur Ethereum via orchestration, micropaiements probabilistes et négociation de tâches hors chaîne**
 
-**Auteurs**
-Doug Petkanics <doug@livepeer.org>
-Yondon Fu <yondon@livepeer.org>
+**Auteurs**   
+Doug Petkanics <doug@livepeer.org>    
+Yondon Fu <yondon@livepeer.org>   
 
-**Chercheurs**
-Eric Tang <eric@livepeer.org>
-Philipp Angele <philipp@livepeer.org>
-Josh Allmann <josh@livepeer.org>
+**Chercheurs**    
+Eric Tang <eric@livepeer.org>   
+Philipp Angele <philipp@livepeer.org>   
+Josh Allmann <josh@livepeer.org>    
 
 **STATUS: PROPOSITION - Des commentaires et des revues sont demandés sur cette première proposition.**
 
@@ -19,35 +19,35 @@ Josh Allmann <josh@livepeer.org>
 La proposition Streamflow introduit des mises à jour du protocole Livepeer et des implémentations hors chaîne qui permettront à Livepeer de s’adapter au-delà des limites actuelles du protocole alpha déployé dans la blockchain Ethereum. Il suggère des mises à jour qui abordent les questions d’abordabilité, de fiabilité, de performance et d’évolutivité du réseau. Les éléments clés sont introduits, notamment un registre de services, un mécanisme de négociation et de paiement hors connexion, une séparation entre les nodes d’orchestration et de transcodage, l’élimination de la solution du problème de disponibilité des données en tant que dépendance de la vérification sans confiance et l’ouverture du nombre de nodes qui peuvent rivaliser pour effectuer des travaux sur le réseau à partir des limites arbitraires basses au cours de l’alpha. L’architecture résultante permettra aux utilisateurs du réseau d’effectuer des travaux de transcodage à grande échelle sur le réseau auprès de nombreux fournisseurs de travaux simultanés, tout en réduisant considérablement l’impact de la demande et de la volatilité des prix de la blockchain sous-jacente sur la viabilité économique de l’utilisation du réseau.
 
 
-Table des Matières
+## Table des Matières #####################################
 
-Introduction et contexte
-Proposition de protocole de flux
-Orchestrateurs et transcodeurs
-Assouplissement de la sécurité du transcodeur et de la sécurité renforcée
-Registre de service
-Négociation des emplois hors chaîne
-Micropaiements probabilistes
-Vérification de la chaîne basée sur l'erreur
-Analyse économique
-Jeton de Livepeer
-La délégation en tant que signal de sécurité et de réputation
-Inflation dans les états liés et délégués apathiques
-Considérations d'ingénierie hors chaîne
-Les attaques
-Pressant délégué
-Délégation de vol
-Zones de recherche ouvertes
-Vérification non déterministe
-Protocoles de reservoir de transcodeur publics
-Diffuseur Doublespend Mitigation
-Paiements VOD
-Voie de migration
-appendice
-Annexe A: Flux de travail probabiliste sur les micro-paiements
-Références
+* [Introduction et contexte]
+* [Proposition de protocole de flux]
+    * [Orchestrateurs et transcodeurs]
+    * [Assouplissement de la sécurité du transcodeur et de la sécurité renforcée]
+    * [Registre de service]
+    * [Négociation des emplois hors chaîne]
+    * [Micropaiements probabilistes]
+    * [Vérification de la chaîne basée sur l'erreur]
+* [Analyse économique]
+    * [Jeton de Livepeer]
+    * [La délégation en tant que signal de sécurité et de réputation]
+    * [Inflation dans les états liés et délégués apathiques]
+    * [Considérations d'ingénierie hors chaîne]
+* [Les attaques]
+    * [Pressant délégué]
+    * [Délégation de vol]
+* [Zones de recherche ouvertes]
+    * [Vérification non déterministe]
+    * [Protocoles de reservoir de transcodeur publics]
+    * [Diffuseur Doublespend Mitigation]
+    * [Paiements VOD]
+* [Voie de migration]
+* [Appendice]
+    * [Annexe A: Flux de travail probabiliste sur les micro-paiements]
+* [Références]
 
-Introduction et Contexte
+## Introduction et Contexte #####################################
 
 Le protocole Livepeer encourage et sécurise un réseau décentralisé de nodes de transcodage vidéo. Les utilisateurs qui souhaitent transcoder une vidéo peuvent soumettre une tâche au réseau à un prix qu’ils jugent acceptable, se voir attribuer un transcodeur, le faire effectuer et effectuer le transcodage avec des garanties de précision économiquement sûres. Le protocole en direct utilise un mécanisme basé sur la participation déléguée pour élire les nodes qui sont jugés suffisamment fiables et de haute qualité pour effectuer l'encodage vidéo en direct de manière opportune et performante.
 
