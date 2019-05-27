@@ -224,64 +224,77 @@ Les mises à jour du protocole pour assouplir le nombre d'orchestrateurs contrai
 Le TPL inflationniste est prévisible, basé sur la récompense d'un orchestrateur. Un mandant peut choisir exactement combien de LPT il souhaite gagner en échange du travail d’assurance qualité qu’il accomplit.
 
 Les frais gagnés en revanche sont moins sous le contrôle du détenteur du token. C'est parce que cela dépend de:
-Combien de travail leur orchestrateur effectue
-Les frais de l'orchestrateur
-Quelle part totale est déléguée à l'orchestrateur et, par conséquent, à quel pourcentage des frais ils ont droit.
+
+1. Combien de travail leur orchestrateur effectue
+2. Les frais de l'orchestrateur
+3. Quelle part totale est déléguée à l'orchestrateur et, par conséquent, à quel pourcentage des frais ils ont droit.
+
 À la fin d'un tour, un mandant sera en mesure de calculer la capacité de gain de son LPT implanté. C’est ce ratio de frais:
-ETH en frais / unité de LPT misé
+
+`ETH en frais / unité de LPT misé`
+
 Quelle sera la statistique visible que les délégués pourront utiliser pour comparer les orchestrateurs, et comme il fallait s'y attendre, la délégation devrait passer d'un tour à l'autre en nodes où il serait possible d'optimiser ce rapport. En bref, pourquoi rester avec un node qui partage un enjeu 1gwei / LPT alors qu’un autre node vers lequel vous pouvez basculer est celui qui partage 2 enjeu gwei / LPT?
 
+<img src="https://livepeer-dev.s3.amazonaws.com/docs/feeratio.jpg" alt="Fee Ratio">
 
 Cependant, il convient de noter que l'acte consistant à transférer davantage de participations sur ce node opportuniste signifie que les frais seront partagés entre davantage de participations et que le ratio de frais diminuera. L'état d'équilibre est que les nodes qui effectuent plus de travail (gagnent plus) ont plus d'enjeu, et que les nodes effectuant moins de travail avec le même partage de redevance ont moins d'enjeu. Tous les nodes concurrentiels doivent en définitive se retrouver avec les mêmes ratios de frais d’équilibre, avec une répartition des pouvoirs intelligemment déléguée à un délégant - et donc un LPT implicitement appliqué intelligemment donne accès à des travaux permettant de gagner des frais sur le réseau, quel que soit le mode d’emploi attribué.
-Délégation en tant que Signal de Sécurité et de Réputation
+
+### Délégation en tant que Signal de Sécurité et de Réputation
+
 Un résultat négatif que les gens pourraient prévoir est que les nodes qui gagnent beaucoup de travail pourraient fournir 0% de redevance, et donc ne pas attirer de délégation. Ce n’est pas un problème; ils utilisent du matériel, encourent des coûts et fournissent un excellent service au réseau; ils n’auront peut-être pas besoin de délégation. Mais la délégation, d’autre part, offre une sécurité supplémentaire - c’est un enjeu supplémentaire qui peut être réduit si le node triche - un signal de réputation accru. Les clients utilisent ce signal pour sélectionner les nodes avec lesquels travailler. Ainsi, un node concurrentiel annonçant une part de frais> 0% serait plus susceptible d'attirer une participation, et donc un travail % node de partage des frais. Encore une fois, cela contribue aux configurations flexibles et aux cas d'utilisation du réseau. Cela augmente les possibilités de concurrence, de décentralisation, de diversité et de résilience du réseau.
+
 Alors que les nouveaux nodes cherchent à concurrencer pour travailler sur le réseau, ils peuvent avoir besoin d'attirer suffisamment de participation pour offrir la sécurité requise par les diffuseurs. Dans ces cas, il est probable que ces nodes définiraient un partage des frais plus important. Les délégants actifs auront la possibilité de rechercher et de s’intéresser aux nodes qui gagnent des portions démesurées de travaux, avec des parts de redevance plus importantes, ce qui entraîne des ratios de redevance plus élevés. En bref, la participation déléguée peut assurer la sécurité et acheminer le travail en échange de frais partagés lorsque le travail est bien exécuté. Une délégation active peut conduire à donner aux nodes plus opportunistes la possibilité d'étendre de manière compétitive l'empreinte et les capacités du réseau.
-Inflation dans L'état de Servitude et Délégués Apathiques
+
+### Inflation dans L'état de Servitude et Délégués Apathiques
 L'une des critiques du modèle de jeu d'enjeu sans plafond, sans enjeu minimum, est qu'il permet un comportement paresseux de la part des délégants. Le LPT inflationniste continue de s'accumuler dans l'état lié, continue de s'aggraver et permet au délégant de l'installer et de l'oublier tout en collectant le LPT sans ajouter de valeur significative au réseau.
+
 Cela peut être le cas aux tout premiers jours du réseau, avant que les frais ne constituent une incitation supplémentaire pour les délégués, mais il est peu probable que les orchestrateurs soient en concurrence pour travailler, gagner de l'argent et distribuer des frais. À ce stade, le comportement du pilote automatique peut toujours générer une augmentation du LPT, mais renoncerait aux frais potentiels pouvant être générés par le passage à des orchestrateurs générant un rapport ETH / LPT plus élevé.
+
 Alors que le taux d'inflation est susceptible de diminuer avec une utilisation réduite, lorsque les détenteurs de jetons cherchent à se faire concurrence pour gagner les frais, la part de la fonction de récompense qui est imputable à l'inflation du LPT continue également à diminuer, une grande partie provenant des frais. Et comme indiqué ci-dessus dans la section LPT, la nécessité de contrôler en permanence le réseau et d'acheminer le travail vers les nodes qui surpassent les autres nodes est motivée par les rendements opportunistes. En bref, un délégant apathique est moins récompensé qu'un délégant actif.
+
 En outre, les orchestrateurs qui ont déjà eu besoin d'attirer des délégations extérieures pour atteindre la mise minimale, accumulent suffisamment de participations pour sécuriser leur propre node, peuvent donc réduire leur part des frais. À ce stade, un délégant optimisateur serait mieux servi en recherchant un nouveau nœud en devenir - essentiellement un node pouvant étendre l'empreinte du réseau - qui pourrait offrir une quote-part de redevance plus élevée afin d'attirer une participation. C’est cette assurance qualité constante effectuée par le mandant qui optimise ses efforts, ainsi que le compromis entre la rémunération et les frais qui créeront une concurrence constante et favoriseront la décentralisation du réseau.
-Considérations D'ingénierie Hors Chaîne
+
+### Considérations D'ingénierie Hors Chaîne
 Comme mentionné précédemment, l'une des principales philosophies de Streamflow consiste à déplacer de nombreux avis sur les valeurs de paramètre valides et les interactions p2p hors du protocole principal et dans les implémentations et les configurations client. La mise en œuvre et la configuration multiples de ces paramètres conduiront à un réseau robuste, résistant aux attaques et aux acteurs malveillants. Cependant, étant donné que le protocole lui-même a moins d'opinion, beaucoup reste à mettre en œuvre par le client. Voici quelques-unes des principales considérations à prendre en compte du point de vue de l'ingénierie pour que Streamflow fonctionne vraiment efficacement:
-Stratégies de gestion des risques liés à la gestion de projet - lorsqu'un orchestrateur doit travailler avec ou non avec un diffuseur en fonction de sa réputation et de son historique, et inversement.
-Génération sécurisée de nombres aléatoires pour le protocole PM.
-Résistance DDoS pour les orchestrateurs.
-Algorithmes de redondance et de basculement pour les diffuseurs dans différents scénarios et cas d'utilisation.
-Stratégie de découverte des prix pour les radiodiffuseurs.
-Protocoles de diffusion en continu à faible latence et vérification de la signature / du paiement lorsque le segment final n'est pas disponible avant le début des travaux.
+
+* Stratégies de gestion des risques liés à la gestion de projet - lorsqu'un orchestrateur doit travailler avec ou non avec un diffuseur en fonction de sa réputation et de son historique, et inversement.
+* Génération sécurisée de nombres aléatoires pour le protocole PM.
+* Résistance DDoS pour les orchestrateurs.
+* Algorithmes de redondance et de basculement pour les diffuseurs dans différents scénarios et cas d'utilisation.
+* Stratégie de découverte des prix pour les radiodiffuseurs.
+* Protocoles de diffusion en continu à faible latence et vérification de la signature / du paiement lorsque le segment final n'est pas disponible avant le début des travaux.
 
 Chacune de ces solutions peut affecter l'efficacité du réseau du point de vue d'un radiodiffuseur - et donc les redondances nécessaires, voire les coûts. La bonne nouvelle est qu’une grande partie de ce qui précède peut être gérée via des stratégies hors chaîne et qu’elle peut être constamment expérimentée avec différentes implémentations ou configurations en concurrence. Un réseau dont les agents agissent de manières différentes et imprévisibles est plus difficile à optimiser pour un attaquant qui, autrement, se tournerait vers une seule implémentation.
 
 
-Les Attaques
-
+## Les Attaques ###############################
 Certains sous-protocoles spécifiques, tels que les vérifications basées sur PM et Truebit, sont sujets à leurs propres attaques, que nous laissons pour analyse dans ces domaines de recherche. Voici une brève discussion sur les attaques potentielles et les contre-mesures dans le contexte économique des modifications apportées au protocole par Streamflow.
 
-Presser les Délégués
+### Presser les Délégués
 
-Lorsqu'un orchestrateur candidat souhaite exploiter un node et exprimer sa candidature, il peut être nécessaire d'attirer une délégation afin d'atteindre le montant de dépôt minimum spécifié par le client pour attirer les travaux classiques. Pour ce faire, ils peuvent représenter un RewardCut et un FeeShare attrayants. Cependant, au moment où leur node commence à effectuer des tâches et à gagner du LPT inflationniste, ils peuvent souhaiter utiliser ce LPT pour investir davantage dans leur node unique afin de réduire le montant de l'inflation et les frais qu'ils doivent partager avec leurs mandataires. Pour ce faire, ils peuvent chasser les délégants actuels en manipulant leur RewardCut et FeeShare à un point peu attrayant, puis en comblant le vide avec leur propre participation.
+Lorsqu'un orchestrateur candidat souhaite exploiter un node et exprimer sa candidature, il peut être nécessaire d'attirer une délégation afin d'atteindre le montant de dépôt minimum spécifié par le client pour attirer les travaux classiques. Pour ce faire, ils peuvent représenter un RewardCut et un FeeShare attrayants. Cependant, au moment où leur node commence à effectuer des tâches et à gagner du LPT inflationniste, ils peuvent souhaiter utiliser ce LPT pour investir davantage dans leur node unique afin de réduire le montant de l'inflation et les frais qu'ils doivent partager avec leurs mandataires. Pour ce faire, ils peuvent chasser les délégants actuels en manipulant leur `RewardCut` et `FeeShare` à un point peu attrayant, puis en comblant le vide avec leur propre participation.
 
 Ceci est théoriquement acceptable, car les délégués peuvent passer à des nodes plus attrayants et s’ajuster au mieux de leurs intérêts. Malheureusement, cela crée une UX agaçante, dans la mesure où les mandataires doivent être constamment vigilants et actifs pour agir dans leur meilleur intérêt. À chaque tour, les actions peuvent passer de dessous.
 
 Selon une idée reçue, les orchestrateurs qui souhaitent créer des nodes supplémentaires, conserver une réputation positive pour attirer une délégation importante et se faire concurrence pour obtenir des frais, se verront lésés par cette approche et n'attireront pas de délégation ultérieure.
 
-Vol des Frais de Délégation
+### Vol des Frais de Délégation
 
 Comme indiqué dans la section intitulée Presser les Délégués du mandant ci-dessus, il est possible que l'orchestrateur chasse ses délégués. Cela pourrait devenir une technique particulièrement malveillante si l'Orchestrateur conservait également ses tickets PM gagnants jusqu'au moment du départ des délégants, puis les encaissait lorsqu'il contenait tous les enjeux de son node. Essentiellement, les frais et récompenses auxquels les délégués ont droit seraient remis à l'orchestrateur.
 
 Cela peut être contrebalancé par la date d'expiration indiquée sur les billets PM, qui est antérieure à la date de retrait des dépôts bloqués dans le temps des diffuseurs. En tant que tels, les tickets devront être encaissés rapidement et contiendront potentiellement la part d'honoraires engagée de l'orchestrateur à ce moment-là, de telle sorte que, lors de l'encaissement d'un ticket gagnant, les fractionnements appropriés puissent être effectués entre les mandataires et l'orchestrateur.
 
 
-Zones de Recherche Ouvertes
+## Zones de Recherche Ouvertes ############################
 
 Comme pour tous les travaux effectués dans le domaine des protocoles crypto-économiques basés sur les chaînes de blocs, de nombreux problèmes de recherche doivent encore être résolus avant que les systèmes puissent atteindre une décentralisation complète, une absence de confiance et une rentabilité. Le projet mène activement des recherches dans quelques domaines. La participation de la communauté est également la bienvenue pour faire progresser ces domaines.
 
-Vérification Non Déterministe
+### Vérification Non Déterministe
 Les recherches se poursuivent pour vérifier la probabilité qu’un segment codé par un processeur graphique représente le même contenu que le segment pré-codé. Cette approche probabiliste et fondée sur des métriques a été démontrée lors d'expériences et de recherches antérieures pour produire des scores précis. Toutefois, la possibilité de réduire réellement les dépôts en fonction de résultats probabilistes est certainement discutable et nécessite des recherches supplémentaires.
 
 En revanche, le codage déterministe peut continuer à être vérifié par divers systèmes de vérification, notamment Truebit, la vérification du matériel basée sur SGX, Oracles ou même des vérificateurs de confiance.
 
-Protocoles de Pool de Transcodeurs
+### Protocoles de Pool de Transcodeurs
 
 La scission des responsabilités d'orchestration et de transcodeur devrait permettre de redimensionner considérablement les opérations des nodes sur Livepeer, en exploitant le matériel inactif pour transcoder la vidéo, sans obliger nécessairement toutes les machines à être reconnues par Livepeer. On pense que les pools privés, dans lesquels l'orchestrateur contient également ce matériel de transcodage, seront les plus rentables, car l'orchestrateur peut avoir la certitude que le résultat généré par les transcodeurs est correct et non malveillant.
 
@@ -289,11 +302,11 @@ Les pools publics, dans lesquels l'orchestrateur ne fait pas confiance aux trans
 
 La recherche et la conception sont ici un sujet ouvert.
 
-Diffuseur Pour la Mitigation des “Doublespend”
+### Diffuseur Pour la Mitigation des “Doublespend”
 
 Dans un système de micropaiements probabilistes, il est toujours possible qu'un radiodiffuseur ait émis plus de tickets gagnants qu'il ne lui en reste pour payer (accidentellement). Et comme les orchestrateurs ne peuvent pas informer immédiatement le télédiffuseur du billet gagnant, il est difficile d'obtenir une comptabilité exacte du solde du télédiffuseur. Nous poursuivons nos recherches sur les paramètres requis et la gestion des dépôts afin d'éviter une double dépense accidentelle dans le cadre de divers modèles d'utilisation du réseau. Voir l’analyse plus détaillée dans l’annexe sur les micropaiements probabilistes.
 
-Paiements Vidéo à la Demande
+### Paiements Vidéo à la Demande
 
 Une des propriétés intéressantes que les radiodiffuseurs peuvent rechercher en matière de transcodage vidéo à la demande est la possibilité de rendre le contenu disponible, de demander un travail et de le faire disparaître - de sorte que l’orchestrateur puisse effectuer le travail de manière asynchrone, le distribuer sur plusieurs nœuds ou planifiez-le lorsque des ressources inactives sont disponibles.
 
@@ -301,31 +314,30 @@ Toutefois, dans le schéma de MP décrit dans Streamflow, le radiodiffuseur doit
 
 Toutefois, pour les travaux de vidéo à la demande (VOD), si un télédiffuseur paie à l’avance tous les segments de la vidéo puis disparaît hors connexion, aucune sécurité ne garantit que l’orchestrateur effectuera le transcodage ou rendra les segments transcodés disponibles au diffuseur. Pour le moment, le transcodage VOD est possible, mais le téléchargement-disparition ne l'est pas. La recherche se poursuivra sur de meilleurs mécanismes permettant les paiements en VOD.
 
-
-Voie de Migration
+## Voie de Migration ############################
 
 La proposition Streamflow en est au tout début de son cycle de recherche, de conception, de retour d’information et de mise en œuvre. Il mérite certainement une critique, des tests, des audits et une acceptation approfondis de la part de la communauté avant d’être mis en ligne sur le réseau principal Ethereum comme prochaine itération sur le protocole alpha de Livepeer. Cette section vise à énumérer quelques considérations préliminaires sur la manière dont une migration de protocole pourrait avoir lieu:
 
-Une nouvelle logique de contrat intelligent serait déployée dans Ethereum, mais il est prévu que très peu, voire aucune migration de données ne sera nécessaire. Le mécanisme de mise à jour existant du proxy-delegatecall de Livepeer pourrait être utilisé.
-L'état existant dans le protocole Livepeer, y compris les soldes de mise, les frais, les récompenses, la délégation, etc., serait maintenu.
-Les transcodeurs, les diffuseurs, les orchestrateurs et les mandataires mettraient à jour leur logiciel client, qui contiendrait une logique pour la négociation des tâches, la redondance, les paiements et la vérification mise à jour.
-Les orchestrateurs enregistrent tous les nouveaux paramètres requis dans le registre de services, y compris les services pris en charge et éventuellement les emplacements.
-Les radiodiffuseurs établiraient des contrats et des dépôts de particules. Les dépôts existants peuvent migrer du contrat Minter vers le contrat PM en passant par une action des utilisateurs, à la demande.
-Il est prévu que cela pourrait être accompli avec peu de temps d'arrêt du protocole.
-Les clients tiers, tels que les explorateurs de protocole et les outils d'analyse, auraient probablement besoin de mises à jour pour refléter les nouvelles interactions de protocole.
+* Une nouvelle logique de contrat intelligent serait déployée dans Ethereum, mais il est prévu que très peu, voire aucune migration de données ne sera nécessaire. Le mécanisme de mise à jour existant du proxy-delegatecall de Livepeer pourrait être utilisé.
+* L'état existant dans le protocole Livepeer, y compris les soldes de mise, les frais, les récompenses, la délégation, etc., serait maintenu.
+* Les transcodeurs, les diffuseurs, les orchestrateurs et les mandataires mettraient à jour leur logiciel client, qui contiendrait une logique pour la négociation des tâches, la redondance, les paiements et la vérification mise à jour.
+* Les orchestrateurs enregistrent tous les nouveaux paramètres requis dans le registre de services, y compris les services pris en charge et éventuellement les emplacements.
+* Les radiodiffuseurs établiraient des contrats et des dépôts de particules. Les dépôts existants peuvent migrer du contrat * Minter vers le contrat PM en passant par une action des utilisateurs, à la demande.
+* Il est prévu que cela pourrait être accompli avec peu de temps d'arrêt du protocole.
+* Les clients tiers, tels que les explorateurs de protocole et les outils d'analyse, auraient probablement besoin de mises à jour pour refléter les nouvelles interactions de protocole.
 
 Un chemin de migration formel, une liste de contrôle et plusieurs exécutions de testnet observées seront disponibles au fil du temps, à l'approche de la date de publication de Streamflow.
 
-Résumé
+## Résumé #################################
 
 En conclusion, les propositions contenues dans ce document visent à mettre en lumière un chemin évolutif pour le réseau d'infrastructure vidéo de Livepeer - un réseau qui dissocie le coût d'utilisation de la blockchain Ethereum du coût d'utilisation du réseau lui-même et qui fournit aux développeurs de vidéos redimensionnés existants avec la fiabilité et la performance dont ils ont besoin de leur infrastructure.
 
-Tous les commentaires, idées et contributions sont les bienvenues. N'hésitez donc pas à vous rendre sur le forum Livepeer ou sur Discord Chat pour participer.
+Tous les commentaires, idées et contributions sont les bienvenues. N'hésitez donc pas à vous rendre sur le [forum Livepeer](https://forum.livepeer.org) ou sur [Discord Chat](https://discord.gg/RR4kFAh) pour participer.
 
 
-Annexe
+## Annexe ################################
 
-Annexe A: Flux de travail des micro-paiements probabilistes
+### Annexe A: Flux de travail des micro-paiements probabilistes
 
 Un dépôt de garantie d'orchestrateur est leur enjeu. Cela peut être réduit s'ils trichent et échouent à une vérification.
 Un diffuseur (utilisant ce terme pour un utilisateur général, qui peut être davantage un développeur que un diffuseur) dépose un dépôt bloqué pour couvrir le travail futur pour lequel il paiera sur le réseau.
