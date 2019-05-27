@@ -15,7 +15,7 @@ Le projet Livepeer vise à fournir un protocole réseau de streaming vidéo en d
 * [Introduction et contexte]
     * [La pile de vidéos en direct]
 * [Protocole Livepeer]
-    * [Segments vidéo]
+    * [Segments vidéo](#segments-vidéo)
     * [Le Livepeer Token]
     * [Rôles de protocole]
     * [Consensus]
@@ -179,88 +179,62 @@ Un node indique sa volonté de devenir un transcodeur en soumettant une transact
 - `BlockRewardCut`: Le % de la récompense de bloc que les nodes liés les paieront pour le service de transcodage. (Example 2%. Si un node lié devait recevoir 100 LPT en récompense de bloc, 2 LPT au transcodeur).
 - `FeeShare`: pourcentage des frais de diffusion des travaux que le transcodeur est disposé à partager avec les nodes liés qui délèguent leurs tâches. (Exemple 25%. Si un transcodeur recevait 100 ETH en frais, il devrait payer 25 ETH aux nodes liés).
 
-Le transcodeur peut mettre à jour leur disponibilité et ses informations jusqu’à `RoundLockAmount`, avant le prochain cycle de transcodage. Ceci est offert en % du tour. (Exemple 10% == 2,4 heures. Ils peuvent modifier cette information jusqu'à 2,4 heures avant le prochain tour de transcodage qui dure 1 jour). Cela donne aux nodes cautionnés la possibilité de réviser le partage des frais et le partage des récompenses par tokens par rapport aux autres transcodeurs, ainsi que les frais anticipés basés sur le tarif qu'ils facturent et la demande du réseau, et de transférer leur participation déléguée s'ils le souhaitent. Au début d’un tour de transcodage (déclenché par un appel à la transaction InitializeRound()), les transcodeurs actifs pour ce tour sont déterminés en fonction de la mise totale déléguée à chaque transcodeur, et les enjeux et les taux sont bloqués pendant la durée du tour.
+Le transcodeur peut mettre à jour leur disponibilité et ses informations jusqu’à `RoundLockAmount`, avant le prochain cycle de transcodage. Ceci est offert en % du tour. (Exemple 10% == 2,4 heures. Ils peuvent modifier cette information jusqu'à 2,4 heures avant le prochain tour qui dure `RoundLength` 1 jour). Cela donne aux nodes cautionnés la possibilité de réviser le partage des frais et le partage des récompenses par tokens par rapport aux autres transcodeurs, ainsi que les frais anticipés basés sur le tarif qu'ils facturent et la demande du réseau, et de transférer leur participation déléguée s'ils le souhaitent. Au début d’un tour de transcodage (déclenché par un appel à la transaction `InitializeRound()`), les transcodeurs actifs pour ce tour sont déterminés en fonction de la mise totale déléguée à chaque transcodeur, et les enjeux et les taux sont bloqués pendant la durée du tour.
 
-Un changement est autorisé pendant RoundLockPeriod: le prix / segment proposé le plus bas pour l'un des transcodeurs candidats est verrouillé et ne peut pas être déplacé, mais d'autres candidats au transcodeur peuvent ajuster leur prix / segment à la baisse. Cela leur permet de faire correspondre le prix proposé le plus bas sur le réseau s'ils le souhaitent afin de garantir leur part du travail pondérée en fonction de la mise sur le réseau. Ils ne sont pas autorisés à augmenter le prix offert pendant cette période.
+Un changement est autorisé pendant `RoundLockPeriod`: le prix/segment proposé le plus bas pour l'un des transcodeurs candidats est verrouillé et ne peut pas être déplacé, mais d'autres candidats au transcodeur peuvent ajuster leur prix / segment à la baisse. Cela leur permet de faire correspondre le prix proposé le plus bas sur le réseau s'ils le souhaitent afin de garantir leur part du travail pondérée en fonction de la mise sur le réseau. Ils ne sont pas autorisés à augmenter le prix offert pendant cette période.
 
 Voici un exemple d'état des options de transcodeur qu'un délégant peut examiner lorsqu'il décide à qui déléguer.
 
+Transcoder ID | PricePerSegment | BlockRewardCut | FeeShare |
+|----|----|----|----|
+| 1 | 22 wei | 1% | 25% |
+| 2 | 30 wei | 2% | 40% |
+| 3 | 10 wei | 4% | 1% |
+| ... | ... | ... | ... |
+| N | 14 wei | 0% | 2% |
 
-Transcoder ID
-PricePerSegment
-BlockRewardCut
-FeeShare
-1
-22 wei
-1%
-25%
-2
-30 wei
-2%
-40%
-3
-10 wei
-4%
-1%
-...
-...
-...
-...
-N
-14 wei
-0%
-2%
+*Note sur le prix: Dans ce document, nous listons le prix/segment. En réalité, Livepeer envisage d’utiliser un modèle inspiré de la comptabilité gaz où il existe une notion d’unités de gaz requises pour certains paramètres de tâche d’un segment, tels que le débit, le codage, la taille de trame, etc. Le prix / segment est un les incitations sont les mêmes, mais en réalité, ils communiqueront probablement le prix / l’essence.*
 
+### Diffusion + transcodage
 
-Note sur le prix: Dans ce document, nous listons le prix / segment. En réalité, Livepeer envisage d’utiliser un modèle inspiré de la comptabilité gaz où il existe une notion d’unités de gaz requises pour certains paramètres de tâche d’un segment, tels que le débit, le codage, la taille de trame, etc. Le prix / segment est un les incitations sont les mêmes, mais en réalité, ils communiqueront probablement le prix / l’essence.
+Les transcodeurs qui sont ouverts au commerce sur le réseau jettent leur chapeau pour le transcodage en soumettant une transaction `TranscodeAvailability()`. Cela indique leur disponibilité et les place dans un pool de transcodeurs disponibles pour accepter un travail récemment soumis.
 
+Lorsqu'un radiodiffuseur soumet son flux sur le réseau Livepeer, il reçoit un `StreamID`. Cela sert à la fois d'identifiant unique et contient également l'adresse du node d'origine, de sorte que les nodes sachent comment demander et acheminer des demandes pour utiliser ce flux vers l'origine. Le flux contient de nombreux segments consécutifs, comme décrit dans la section [Segments vidéo](#segments-vidéo). Si le radiodiffuseur souhaite que le réseau se charge de transcoder son flux dans tous les formats et débits nécessaires pour atteindre chaque utilisateur sur chaque appareil, la première étape consiste à soumettre une transaction de travail de transcodage sur une chaîne. Les travaux reçoivent également un identifiant unique et les données d'entrée dans le travail consistent en:
 
-Diffusion + transcodage
+`Job(StreamID, TranscodingOptions, PricePerSegment)`
 
-Les transcodeurs qui sont ouverts au commerce sur le réseau jettent leur chapeau pour le transcodage en soumettant une transaction TranscodeAvailability(). Cela indique leur disponibilité et les place dans un pool de transcodeurs disponibles pour accepter un travail récemment soumis.
-Lorsqu'un radiodiffuseur soumet son flux sur le réseau Livepeer, il reçoit un StreamID. Cela sert à la fois d'identifiant unique et contient également l'adresse du node d'origine, de sorte que les nodes sachent comment demander et acheminer des demandes pour utiliser ce flux vers l'origine. Le flux contient de nombreux segments consécutifs, comme décrit dans la section Segments vidéo. Si le radiodiffuseur souhaite que le réseau se charge de transcoder son flux dans tous les formats et débits nécessaires pour atteindre chaque utilisateur sur chaque appareil, la première étape consiste à soumettre une transaction de travail de transcodage sur une chaîne. Les travaux reçoivent également un identifiant unique et les données d'entrée dans le travail consistent en:
-
-Job(StreamID, TranscodingOptions, PricePerSegment)
-
-Les TranscodingOptions définissent les débits en sortie, les formats, les codages, etc., et le PricePerSegment indique le prix que le diffuseur proposera.
+Les `TranscodingOptions` définissent les débits en sortie, les formats, les codages, etc., et le `PricePerSegment` indique le prix que le diffuseur proposera.
 
 Dès que cette transaction est exploitée, le hachage de bloc suivant sera utilisé pour déterminer de manière pseudo-aléatoire le transcodeur sélectionné pour ce travail. Tous les transcodeurs dont le prix est inférieur ou égal au prix offert seront pris en compte et le module de hachage de bloc, le nombre de transcodeurs candidats (pondérés par leurs mises) détermineront l’indice du transcodeur sélectionné.
 
 À ce stade, le radiodiffuseur peut commencer à diffuser des segments vidéo vers le transcodeur et il participera au protocole suivant. Le protocole utilise également une solution de stockage persistant, par exemple Swarm, dans le cadre du processus de vérification du travail.
 
-Prétraitement
+#### Prétraitement
 
-Diffuseur -> Livepeer Smart Contract: soumet un dépôt sur la chaîne pour couvrir le coût du travail de transcodage complet. Celui-ci peut être rechargé ultérieurement à tout moment, mais le transcodeur peut cesser de fonctionner si le dépôt est épuisé au fur et à mesure de leur encaissement progressif.
+1.  **Diffuseur** -> **Livepeer Smart Contract**: soumet un dépôt sur la chaîne pour couvrir le coût du travail de transcodage complet. Celui-ci peut être rechargé ultérieurement à tout moment, mais le transcodeur peut cesser de fonctionner si le dépôt est épuisé au fur et à mesure de leur encaissement progressif.
 
-Le travail
+#### Le travail
 
-Broadcaster -> Livepeer Smart Contract: Job (ID de flux, options, prix / segment)
-Crée la demande de travail sur la chaîne et place un dépôt ETH en dépôt bloqué pour payer le travail.
-Le protocole peut utiliser le hachage de bloc suivant pour sélectionner de manière déterministe le transcodeur approprié pour ce travail.
-Transcodeur -> Diffuseur: envoie le streamID de sortie et confirme que le travail est accepté.
-Broadcaster -> Transcoder: envoyez des segments de flux contenant des signatures vérifiant les données d'entrée.
-Le transcodeur effectue le transcodage et rend le nouveau flux de sortie disponible sur le réseau
-Transcodeur: Stockez un reçu de transcodage pour chaque segment de travail de transcodage. Un reçu de transcodage comporte les champs suivants.
+2. **Diffuseur** -> **Livepeer Smart Contract**: Job (ID de flux, options, prix / segment)
+    - Crée la demande de travail sur la chaîne et place un dépôt ETH en dépôt bloqué pour payer le travail.
+3. Le protocole peut utiliser le hachage de bloc suivant pour sélectionner de manière déterministe le transcodeur approprié pour ce travail.
+4. **Transcodeur** -> **Diffuseur**: envoie le streamID de sortie et confirme que le travail est accepté.
+5. **Diffuseur** -> **Transcoder**: envoyez des segments de flux contenant des signatures vérifiant les données d'entrée.
+7. **Le transcodeur** effectue le transcodage et rend le nouveau flux de sortie disponible sur le réseau
+9. **Transcodeur**: Stockez un reçu de transcodage pour chaque segment de travail de transcodage. Un reçu de transcodage comporte les champs suivants.
 
-Transcoder le champ de réception
-La Description
-StreamID
-Identifie le node d'origine et le flux auxquels ce segment appartient.
-Sequence Number
-L'ordre séquentiel auquel ce segment appartient dans le flux d'origine.
-Input Data hash
-Le hachage de la charge de données du segment d'entrée.
-Transcoded Data hash
-Le hachage des données de sortie après le transcodage de ce segment.
-Broadcaster segment signature
-Une signature du diffuseur de Priv (StreamID, Seq #, Dhash) pouvant être utilisée pour attester et vérifier que le diffuseur prétend qu'il s'agit des données vraies pour ce segment unique.
-Transcoder segment signature
-Une signature de tous les champs ci-dessus du transcodeur attestant de l'affirmation selon laquelle ce transcodage de sortie spécifique a été effectué sur cette entrée spécifique.
+| Transcoder le champ de réception | La Description |
+|-------|------------|
+| **StreamID** | Identifie le node d'origine et le flux auxquels ce segment appartient. |
+| **Sequence Number** | L'ordre séquentiel auquel ce segment appartient dans le flux d'origine. |
+| **Input Data hash** | Le hachage de la charge de données du segment d'entrée. |
+| **Transcoded Data hash** | Le hachage des données de sortie après le transcodage de ce segment. |
+| **Broadcaster segment signature** | Une signature du diffuseur de Priv (StreamID, Seq #, Dhash) pouvant être utilisée pour attester et vérifier que le diffuseur prétend qu'il s'agit des données vraies pour ce segment unique. |
+| **Transcoder segment signature** | Une signature de tous les champs ci-dessus du transcodeur attestant de l'affirmation selon laquelle ce transcodage de sortie spécifique a été effectué sur cette entrée spécifique. |
 
-Chaque fois que le transcodeur constate qu'il ne reçoit plus de segments, il peut appeler ClaimWork() pour réclamer son travail.
+Chaque fois que le transcodeur constate qu'il ne reçoit plus de segments, il peut appeler `ClaimWork()` pour réclamer son travail.
 
-
-Fin du Travail
+#### Fin du Travail
 
 Transcodeur -> Livepeer Smart Contract: Appelez ClaimWork (JobID, StartSegmentSeq #, EndSegmentSeq #, MerkleRoot). Transcoder affirme sur la chaîne qu'il a effectué un travail sur la plage de segment revendiquée, avec une racine centrale de toutes les données de réception de transcodage afin de valider le contenu de ces segments codés.
 Attendez que cette transaction soit minée et observez le prochain blockhash. Le protocole peut ensuite déterminer quels segments seront vérifiés sur la base du VerificationRate.
