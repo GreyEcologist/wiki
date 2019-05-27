@@ -1,60 +1,60 @@
-Livre Blanc Livepeer
-Protocole et Motivations Economiques Pour un Réseau Decentralisé De Streaming Vidéo
+# Livre Blanc Livepeer
 
-Doug Petkanics doug@livepeer.org
-Eric Tang eric@livepeer.org
+**Protocole et Motivations Economiques Pour un Réseau Decentralisé De Streaming Vidéo**
 
+Doug Petkanics <doug@livepeer.org>    
+Eric Tang <eric@livepeer.org>   
 
-Abstrait
+## Abstrait ###########################################
 
 Le projet Livepeer vise à fournir un protocole réseau de streaming vidéo en direct entièrement décentralisé, hautement évolutif, utilisant des jetons cryptographiques, et donnant lieu à une solution pouvant servir de couche média live dans la pile de développement décentralisé (web3). En outre, Livepeer est destiné à offrir une alternative économique aux solutions de diffusion centralisées pour tous les diffuseurs existants. Dans ce document, nous décrivons le protocole Livepeer, un protocole basé sur la participation pour inciter les participants à un réseau de diffusion vidéo en direct d’une manière sécurisée du point de vue du jeu. Nous présentons des solutions pour la vérification évolutive du travail décentralisé, ainsi que pour la prévention du travail inutile, dans le but de jouer les attributions de jetons dans un système inflationniste.
 
 
-Table des Matières
+## Table des Matières ###########################################
 
-Introduction et contexte
-La pile de vidéos en direct
-Protocole Livepeer
-Segments vidéo
-Le Livepeer Token
-Rôles de protocole
-Consensus
-Collage + Délégation
-Transcoder () Transaction
-Diffusion + transcodage
-Prétraitement
-Le travail
-Fin du travail
-Vérification du travail
-Une note sur Truebit
-Génération de tokens
-Slashing
-Distribution de tokens
-La gouvernance
-Les attaques
-Attaques de consensus
-DDoS
-Transcodeur inutile ou autorégulant
-Griefing du transcodeur
-Chain Reorg
-Distribution vidéo en direct
-Cas d'utilisation
-Consommation de contenu à la carte
-Services de vidéo sociale à mise à l'échelle automatique
-Journalisme en direct sans censure
-DApps vidéo activés
-Résumé
-appendice
-Référence de paramètre de protocole Livepeer
-Types de transaction de protocole Livepeer
-Références
+* [Introduction et contexte]
+    * [La pile de vidéos en direct]
+* [Protocole Livepeer]
+    * [Segments vidéo]
+    * [Le Livepeer Token]
+    * [Rôles de protocole]
+    * [Consensus]
+    * [Collage + Délégation]
+    * [Transcoder() Transaction]
+    * [Diffusion + transcodage]
+        * [Prétraitement]
+        * [Le travail]
+        * [Fin du travail]
+    * [Vérification du travail]
+        * [Une note sur Truebit]
+    * [Génération de tokens]
+    * [Slashing]
+    * [Distribution de tokens]
+    * [La gouvernance]
+* [Les attaques]
+    * [Attaques de consensus]
+    * [DDoS]
+    * [Transcodeur inutile ou autorégulant]
+    * [Griefing du transcodeur]
+    * [Chain Reorg]
+* [Distribution vidéo en direct]
+* [Cas d'utilisation]
+    * [Consommation de contenu à la carte]
+    * [Services de vidéo sociale à mise à l'échelle automatique]
+    * [Journalisme en direct sans censure]
+    * [DApps vidéo activés]
+* [Résumé]
+* [Appendice]
+    * [Référence de paramètre de protocole Livepeer]
+    * [Types de transaction de protocole Livepeer]
+* [Références]
 
-Remarque: Ce document a été publié pour la première fois en avril 2017. Une proposition d’augmentation de capacité appelée «Streamflow» a été proposée en décembre 2018. Elle propose certaines itérations et améliorations concernant certaines des idées présentées ci-dessous. Lisez la proposition pour Streamflow ici.
+*Remarque: Ce document a été publié pour la première fois en avril 2017. Une proposition d’augmentation de capacité appelée «Streamflow» a été proposée en décembre 2018. Elle propose certaines itérations et améliorations concernant certaines des idées présentées ci-dessous. Lisez la proposition pour [Streamflow ici](https://github.com/livepeer/wiki/blob/master/STREAMFLOW.md).*
 
 
-Introduction et Contexte
+## Introduction et Contexte ###########################################
 
-La vision du Web décentralisé a commencé à se concrétiser au cours des dernières années avec l’émergence de réseaux tels que Ethereum pour permettre l’informatique “trustless”, Swarm et IPFS / Filecoin pour permettre le stockage décentralisé et la distribution de contenu, Bitcoin et divers projets de tokens pour faciliter le transfert p2p de valeur, et des registres d’identification numerique décentralisés comme Blockstack et ENS pour fournir des noms  accessibles au contenu et aux identités. Ces éléments constituent la base des applications décentralisées (DApps) qui doivent être construites sous forme de contenu Web ou mobile en grande partie statique ou rarement mis à jour, mais pour le moment, les DApps n'ont toujours pas la possibilité d'inclure le streaming de données et de médias de manière ouverte et décentralisée. Le projet Livepeer a pour objectif de décentraliser la diffusion de vidéos en direct sur Internet.
+La vision du Web décentralisé a commencé à se concrétiser au cours des dernières années avec l’émergence de réseaux tels que [Ethereum](http://ethereum.org) pour permettre l’informatique “trustless”, [Swarm](http://swarm-gateways.net/bzz:/theswarm.eth/) et [IPFS/Filecoin](http://ipfs.io) pour permettre le stockage décentralisé et la distribution de contenu, Bitcoin et divers projets de tokens pour faciliter le transfert p2p de valeur, et des registres d’identification numerique décentralisés comme Blockstack et ENS pour fournir des noms  accessibles au contenu et aux identités. Ces éléments constituent la base des applications décentralisées (DApps) qui doivent être construites sous forme de contenu Web ou mobile en grande partie statique ou rarement mis à jour, mais pour le moment, les DApps n'ont toujours pas la possibilité d'inclure le streaming de données et de médias de manière ouverte et décentralisée. Le projet Livepeer a pour objectif de décentraliser la diffusion de vidéos en direct sur Internet.
 
 
 La présentation du projet Livepeer constitue une introduction intéressante à l’état actuel de la vidéo en direct sur Internet. Ce livre blanc se concentrera principalement sur les détails du protocole crypto-économique de Livepeer, plutôt que sur l'analyse de rentabilisation, mais en résumé, la vue d'ensemble décrit l'état actuel de la diffusion en direct comme se développant à un rythme rapide, centralisé et coûteux. D'autre part, une solution P2P entièrement décentralisée, dans laquelle les nodes apportaient leur propre calcul et où la bande passante en service de diffusion en direct de vidéo en direct serait plus ouverte et évolutive, le nombre de connexions pouvant être desservies n'étant pas limitée.
