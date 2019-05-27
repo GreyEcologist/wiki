@@ -339,34 +339,30 @@ Tous les commentaires, idées et contributions sont les bienvenues. N'hésitez d
 
 ### Annexe A: Flux de travail des micro-paiements probabilistes
 
-Un dépôt de garantie d'orchestrateur est leur enjeu. Cela peut être réduit s'ils trichent et échouent à une vérification.
-Un diffuseur (utilisant ce terme pour un utilisateur général, qui peut être davantage un développeur que un diffuseur) dépose un dépôt bloqué pour couvrir le travail futur pour lequel il paiera sur le réseau.
-Un diffuseur veut une vidéo transcodée. Ils examinent le registre en ligne des orchestrateurs faisant la publicité de leurs services et négocient hors chaîne avec ceux qui répondent à leurs besoins:
-Les orchestrateurs leur fournissent un devis.
-Les orchestrateurs fournissent des paramètres de micropaiement probabilistes (MP), qui peuvent varier en fonction des conditions du réseau Ethereum. Par exemple, ils peuvent définir le montant du ticket gagnant de telle sorte que le coût de l’encaissement soit inférieur à 1% de la valeur reçue.
-Le diffuseur envoie des segments de vidéo aux orchestrateurs avec lesquels il souhaite travailler, ainsi qu’un ticket PM.
-Le ticket PM est un protocole interactif destiné à empêcher toute partie de biaiser la source du hasard utilisée pour déterminer si un ticket est gagnant ou non. Après chaque ticket gagnant, l'orchestrateur doit générer un nouveau # aléatoire et envoyer l'engagement au diffuseur. Ceci est probablement acceptable, car le diffuseur et l'orchestrateur enverront déjà des données dans les deux sens - cela impliquerait simplement un message supplémentaire envoyé par l'orchestrateur à chaque fois qu'un nouvel engagement est requis. Une optimisation ultérieure éventuellement possible consiste à utiliser une fonction aléatoire vérifiable (VRF) implémentée dans un contrat intelligent: l'orchestrateur attribue une clé de publication au diffuseur et l'orchestrateur signe les tickets reçus avec la clé privée correspondante; le contrat de VRF vérifie que le sig est correct, qui est ensuite utilisé comme source de pseudo-hasard. En conséquence, le protocole devient non interactif. Aurait besoin d'évaluer la faisabilité de la mise en œuvre du VRF dans un contrat intelligent et le coût de la vérification de ce type de signature - ok, ne vous concentrez pas sur cela maintenant, mais sur une possibilité pour l'avenir.
-Le diffuseur reçoit une sortie transcodée de l'orchestrateur.
-Le radiodiffuseur peut vérifier tous les segments qu’il souhaite vérifier.
-Si le travail ne se vérifie pas, ils peuvent fournir cette preuve à Truebit sur chaîne pour réduire l’orchestrateur et gagner une énorme récompense.
-Si le diffuseur ne reçoit pas de travail de la part de l'orchestrateur, arrêtez simplement de leur envoyer de futurs segments et travaillez avec un autre orchestrateur.
-Si l’orchestrateur ne reçoit pas de ticket PM valide, ne faites pas le travail et ne renvoyez aucune sortie.
-Le protocole contiendra des messages pour certaines conditions d'erreur, telles que LowPMBalance ou SegmentFormatDidntMatchJobInputParams afin que les radiodiffuseurs puissent recevoir des informations utiles à déboguer ou que leur node puisse prendre des décisions telles que le remplissage de leur solde.
-Orchestrator surveille le dépôt du radiodiffuseur et évalue le risque de défaillance.
-Algorithme simple pour commencer. Si leur solde est trop bas, arrêtez simplement de travailler.
-Orchestrateur encaisse les tickets gagnants au fur et à mesure de leur réception (ou attend que le prix de l'essence soit moins cher, en évaluant le risque de défaillance)
+* Un dépôt de garantie d'orchestrateur est leur enjeu. Cela peut être réduit s'ils trichent et échouent à une vérification.
+* Un diffuseur (utilisant ce terme pour un utilisateur général, qui peut être davantage un développeur que un diffuseur) dépose un dépôt bloqué pour couvrir le travail futur pour lequel il paiera sur le réseau.
+* Un diffuseur veut une vidéo transcodée. Ils examinent le registre en ligne des orchestrateurs faisant la publicité de leurs services et négocient hors chaîne avec ceux qui répondent à leurs besoins:
+    * Les orchestrateurs leur fournissent un devis.
+    * Les orchestrateurs fournissent des paramètres de micropaiement probabilistes (MP), qui peuvent varier en fonction des conditions du réseau Ethereum. Par exemple, ils peuvent définir le montant du ticket gagnant de telle sorte que le coût de l’encaissement soit inférieur à 1% de la valeur reçue.
+* Le diffuseur envoie des segments de vidéo aux orchestrateurs avec lesquels il souhaite travailler, ainsi qu’un ticket PM.
+    * Le ticket PM est un protocole interactif destiné à empêcher toute partie de biaiser la source du hasard utilisée pour déterminer si un ticket est gagnant ou non. Après chaque ticket gagnant, l'orchestrateur doit générer un nouveau # aléatoire et envoyer l'engagement au diffuseur. Ceci est probablement acceptable, car le diffuseur et l'orchestrateur enverront déjà des données dans les deux sens - cela impliquerait simplement un message supplémentaire envoyé par l'orchestrateur à chaque fois qu'un nouvel engagement est requis. Une optimisation ultérieure éventuellement possible consiste à utiliser une fonction aléatoire vérifiable (VRF) implémentée dans un contrat intelligent: l'orchestrateur attribue une clé de publication au diffuseur et l'orchestrateur signe les tickets reçus avec la clé privée correspondante; le contrat de VRF vérifie que le sig est correct, qui est ensuite utilisé comme source de pseudo-hasard. En conséquence, le protocole devient non interactif. Aurait besoin d'évaluer la faisabilité de la mise en œuvre du VRF dans un contrat intelligent et le coût de la vérification de ce type de signature - ok, ne vous concentrez pas sur cela maintenant, mais sur une possibilité pour l'avenir.
+* Le diffuseur reçoit une sortie transcodée de l'orchestrateur.
+    * Le radiodiffuseur peut vérifier tous les segments qu’il souhaite vérifier.
+    * Si le travail ne se vérifie pas, ils peuvent fournir cette preuve à Truebit sur chaîne pour réduire l’orchestrateur et gagner une énorme récompense.
+* Si le diffuseur ne reçoit pas de travail de la part de l'orchestrateur, arrêtez simplement de leur envoyer de futurs segments et travaillez avec un autre orchestrateur.
+* Si l’orchestrateur ne reçoit pas de ticket PM valide, ne faites pas le travail et ne renvoyez aucune sortie.
+    * Le protocole contiendra des messages pour certaines conditions d'erreur, telles que `LowPMBalance` ou `SegmentFormatDidntMatchJobInputParams` afin que les radiodiffuseurs puissent recevoir des informations utiles à déboguer ou que leur node puisse prendre des décisions telles que le remplissage de leur solde.
+* Orchestrator surveille le dépôt du radiodiffuseur et évalue le risque de défaillance.
+    * Algorithme simple pour commencer. Si leur solde est trop bas, arrêtez simplement de travailler.
+    * Orchestrateur encaisse les tickets gagnants au fur et à mesure de leur réception (ou attend que le prix de l'essence soit moins cher, en évaluant le risque de défaillance)
 
-Pour une analyse complète et la spécification des structures de données du ticket, la prévention de la double dépense et d'autres considérations relatives à la conception, voir ce document externe.
+Pour une analyse complète et la spécification des structures de données du ticket, la prévention de la double dépense et d'autres considérations relatives à la conception, voir ce [document externe](https://hackmd.io/uHMFeNSyS_GyzwnO3Ld74A?view).
 
-Références
-Livepeer Whitepaper - Doug Petkanics, Eric Tang - https://github.com/livepeer/wiki/blob/master/WHITEPAPER.md
-The Video Miner, A Path To Scaling Video Transcoding -Philipp Angele - https://medium.com/livepeer-blog/the-video-miner-a-path-to-scaling-video-transcoding-a3487d232a1
-Ethereum Probabilistic Micropayments - Gustav Simonson - https://medium.com/@gustav.simonsson/ethereum-probabilistic-micropayments-ae6e6cd85a06
-Electronic Lottery Tickets as Micropayments - Ron Rivest - MIT Lab for Computer Science - https://people.csail.mit.edu/rivest/pubs/Riv97b.pdf
-Decentralized Anonymous Micropayments - A. Chiesa, M. Green, J. Liu, P. Miao, I. Miers and P. Mishra - https://eprint.iacr.org/2016/1033.pdf
+## Références ###########################################
 
-
-
-
-
+1. Livepeer Whitepaper - Doug Petkanics, Eric Tang - <https://github.com/livepeer/wiki/blob/master/WHITEPAPER.md>
+2. The Video Miner, A Path To Scaling Video Transcoding -Philipp Angele - <https://medium.com/livepeer-blog/the-video-miner-a-path-to-scaling-video-transcoding-a3487d232a1>
+3. Ethereum Probabilistic Micropayments - Gustav Simonson - <https://medium.com/@gustav.simonsson/ethereum-probabilistic-micropayments-ae6e6cd85a06>
+4. Electronic Lottery Tickets as Micropayments - Ron Rivest - MIT Lab for Computer Science - <https://people.csail.mit.edu/rivest/pubs/Riv97b.pdf>
+5. Decentralized Anonymous Micropayments - A. Chiesa, M. Green, J. Liu, P. Miao, I. Miers and P. Mishra - <https://eprint.iacr.org/2016/1033.pdf>
 
