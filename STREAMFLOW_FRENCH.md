@@ -116,32 +116,32 @@ Les transcodeurs actifs avaient besoin de suffisamment d’enjeu risqués pour s
 
 Les effets de la réduction de cette limite artificielle seront réalisés par:
 
-La négociation et le basculement des travaux hors chaîne, ce qui signifie que les orchestrateurs qui ne sont pas disponibles ou qui n’effectuent pas de travail perdront tout travail à venir, mais ne nuiront pas à l’expérience du télédiffuseur.
-Le set actif ne doit pas être calculé par tour, mais peut simplement être maintenu en place lorsque les orchestrateurs se lient, se désolidarisent ou se font couper.
-Les orchestrateurs actifs et compétitifs voudront toujours porter une attention particulière aux mises à niveau, aux bugs et au développement du réseau - mais les orchestrateurs inactifs qui ne réussissent pas ne pourront tout simplement pas attirer du travail sur le réseau sans nuire à l'expérience du diffuseur.
-Maintenant qu'un pourcentage important de la participation initiale est activement actif, les exigences peuvent être définies de manière à ce qu'il y ait suffisamment de participation et de sécurité pour sécuriser un plus grand nombre de nœuds en concurrence pour des travaux sur le réseau.
+* La négociation et le basculement des travaux hors chaîne, ce qui signifie que les orchestrateurs qui ne sont pas disponibles ou qui n’effectuent pas de travail perdront tout travail à venir, mais ne nuiront pas à l’expérience du télédiffuseur.
+* Le set actif ne doit pas être calculé par tour, mais peut simplement être maintenu en place lorsque les orchestrateurs se lient, se désolidarisent ou se font couper.
+* Les orchestrateurs actifs et compétitifs voudront toujours porter une attention particulière aux mises à niveau, aux bugs et au développement du réseau - mais les orchestrateurs inactifs qui ne réussissent pas ne pourront tout simplement pas attirer du travail sur le réseau sans nuire à l'expérience du diffuseur.
+* Maintenant qu'un pourcentage important de la participation initiale est activement actif, les exigences peuvent être définies de manière à ce qu'il y ait suffisamment de participation et de sécurité pour sécuriser un plus grand nombre de nœuds en concurrence pour des travaux sur le réseau.
 
 Le nombre exact d'orchestrateurs cibles et la méthode de mise en œuvre restent un problème de recherche ouvert. Au départ, il devrait y avoir une augmentation de l'ordre de grandeur - telle que des centaines d'orchestrateurs actifs au lieu de 15 - avec l'objectif de se développer à terme pour atteindre les 1000 afin de pouvoir proposer chaque service dans toutes les régions du monde avec des licenciements redondants. Voici quelques mécanismes envisagés, avec une brève description de certains de leurs compromis:
 
-Augmentez le nombre N (nombre d'emplacements d'orchestrateur) de 15 à quelque chose de beaucoup plus grand, tel que 200: les choses fonctionneraient essentiellement de la même manière qu'aujourd'hui, avec un obstacle beaucoup moins important à l'activation d'un node. Mais cela rendrait les actions liées au collage plus coûteuses. Des problèmes d'échelle et de gaz dans Ethereum peuvent entrer en jeu.
-Définir un enjeu minimum requis pour devenir un orchestrateur: cela établirait un maximum possible de N tout en permettant à quiconque de savoir exactement ce qu'il faut pour atteindre cette barre de sécurité et rester dans l'ensemble actif. Cela permettrait également à un réseau croissant d'orchestrateurs de générer un LPT inflationniste et encouragerait les délégués à rechercher activement de nouveaux orchestrateurs offrant des actions à frais, cherchant à dépasser le minimum pour devenir actifs afin de concourir pour le travail.
-Définissez un montant d’enjeu fixe pour tout orchestrateur: cela obligerait les orchestrateurs à exécuter des nodes supplémentaires et les mandants à reconfigurer en permanence afin de pouvoir utiliser leur inflation de LPT. Cependant, l'expérience utilisateur qui en résulte pour les orchestrateurs et les mandataires présente certaines faiblesses, ainsi que des détails de mise en œuvre complexes.
-Éliminez toute exigence de mise minimale du protocole et laissez les clients configurer le montant de la mise nécessaire pour sécuriser un travail: cela crée l'accès le plus ouvert possible et est le plus décentralisé au départ, mais offre le moins de coordination possible entre les délégués et les orchestrateurs détenteurs de jetons. créer un réseau de haute qualité - essentiellement la réputation joue un rôle plus important et pourrait donc conduire à une plus grande centralisation du travail effectué à long terme, car les délégants ont une capacité collective moins grande à acheminer le travail.
+1. **Augmentez le nombre N (nombre d'emplacements d'orchestrateur) de 15 à quelque chose de beaucoup plus grand, tel que 200**: les choses fonctionneraient essentiellement de la même manière qu'aujourd'hui, avec un obstacle beaucoup moins important à l'activation d'un node. Mais cela rendrait les actions liées au collage plus coûteuses. Des problèmes d'échelle et de gaz dans Ethereum peuvent entrer en jeu.
+2. **Définir un enjeu minimum requis pour devenir un orchestrateur**: cela établirait un maximum possible de N tout en permettant à quiconque de savoir exactement ce qu'il faut pour atteindre cette barre de sécurité et rester dans l'ensemble actif. Cela permettrait également à un réseau croissant d'orchestrateurs de générer un LPT inflationniste et encouragerait les délégués à rechercher activement de nouveaux orchestrateurs offrant des actions à frais, cherchant à dépasser le minimum pour devenir actifs afin de concourir pour le travail.
+3. **Définissez un montant d’enjeu fixe pour tout orchestrateur**: cela obligerait les orchestrateurs à exécuter des nodes supplémentaires et les mandants à reconfigurer en permanence afin de pouvoir utiliser leur inflation de LPT. Cependant, l'expérience utilisateur qui en résulte pour les orchestrateurs et les mandataires présente certaines faiblesses, ainsi que des détails de mise en œuvre complexes.
+4. **Éliminez toute exigence de mise minimale du protocole et laissez les clients configurer le montant de la mise nécessaire pour sécuriser un travail**: cela crée l'accès le plus ouvert possible et est le plus décentralisé au départ, mais offre le moins de coordination possible entre les délégués et les orchestrateurs détenteurs de jetons. créer un réseau de haute qualité - essentiellement la réputation joue un rôle plus important et pourrait donc conduire à une plus grande centralisation du travail effectué à long terme, car les délégants ont une capacité collective moins grande à acheminer le travail.
 
 Bien que les avantages et les inconvénients des approches susmentionnées soient pris en compte, il est important de noter que le résultat de la mise en œuvre de l’un de ces objectifs sera un réseau d’orchestrateurs élargi, davantage de licenciements et une concurrence accrue au profit des diffuseurs, orientez les mises vers des nodes capables de fournir des services supplémentaires de manière fiable et rentable au réseau, moyennant des frais.
 
 L'un des avantages des modèles de mise minimale est que, lorsque les frais circulent dans le réseau, il n'y a aucune raison de faire fonctionner un nœud qui ne fait pas concurrence pour le travail sur le réseau. Le nombre de créneaux horaires est limité et cette mise est mieux utilisée pour déléguer vers un nœud qui fournirait un partage des frais, plutôt que de rester assis sur un node inactif ne recueillant que des récompenses.
 
-Registre de Service
+### Registre de Service
 
 Streamflow étend le rôle du registre de service dans le protocole on chain. Les orchestrateurs continueront à publier leurs informations de récompense, de réduction, de redevance et de connexion, mais ils publieront également les services proposés par leur node et les régions desservies par leur node. Cela aura des répercussions sur les performances et les radiodiffuseurs pourront rechercher les services spécifiques qu’ils souhaitent, desservis par un node à proximité. Les orchestrateurs ne feront plus la publicité du prix qu'ils facturent, car la négociation des prix et de la disponibilité est en train de sortir de la chaîne. En ce qui concerne les services considérés, il existe probablement deux abstractions:
 
 
-Un service
-Identificateur de service - l'identifiant qui représente ce service particulier, tel que «CPUTranscoding», «GPUTranscoding» ou «SegmentVerification». Il reste encore du travail à faire sur la définition exacte, et il est possible que les services soient plus granulaires, comme l'entrée / paires de codage de sortie telles que «H264 1080p -> 720p».
-Fonction de vérification - le pointeur d'adresse sur la fonction de vérification qui sera exécuté pour invoquer la vérification en chaîne de l'exactitude de ce service (peut être nulle si aucune vérification n'est disponible).
-Emplacements
-L'implémentation est à déterminer, mais il s'agit probablement d'une abstraction qui spécifie un tableau des régions que ce node veut ou peut servir.
+1. **Un service**
+    1. Identificateur de service - l'identifiant qui représente ce service particulier, tel que «CPUTranscoding», «GPUTranscoding» ou «SegmentVerification». Il reste encore du travail à faire sur la définition exacte, et il est possible que les services soient plus granulaires, comme l'entrée / paires de codage de sortie telles que «H264 1080p -> 720p».
+    1. Fonction de vérification - le pointeur d'adresse sur la fonction de vérification qui sera exécuté pour invoquer la vérification en chaîne de l'exactitude de ce service (peut être nulle si aucune vérification n'est disponible).
+1. **Emplacements**
+    1. L'implémentation est à déterminer, mais il s'agit probablement d'une abstraction qui spécifie un tableau des régions que ce node veut ou peut servir.
 
 La combinaison de ces publicités permettra aux radiodiffuseurs de filtrer le registre de services pour les nodes qui annoncent les services et les emplacements qu’ils souhaitent desservir afin d’engager efficacement des négociations hors chaîne avec les fournisseurs de services appropriés. L'emplacement était un facteur précédemment ignoré dans la version alpha de Livepeer. Toutefois, il peut être essentiel pour l'acquisition de vidéo en direct que les nodes recevant la vidéo soient situés à proximité de la source vidéo, en raison de divers problèmes de réseau pouvant se produire et créer une instabilité accrue. connexions plus longues avec plus de sauts.
 
@@ -149,32 +149,32 @@ Bien entendu, un emplacement annoncé peut être falsifié. Cependant, à l'inst
 
 Lorsque les nodes gagnent du LPT inflationniste, ils peuvent, pour optimiser leur utilisation, ajouter un nouveau node au registre de services, qui sert une capacité ou un emplacement pour lequel il existe une demande, mais pas assez fiable ou économique l'offre - élargissant ainsi l'empreinte du réseau et la capacité de servir divers clients et cas d'utilisation.
 
-Négociation des travailles hors chaîne
+### Négociation des travailles hors chaîne
 
 Le passage d'une tâche en chaîne à une négociation en dehors de la chaîne est peut-être le changement le plus important proposé par Streamflow. Cela change l’hypothèse selon laquelle les emplois sont acheminés strictement en fonction de l’enjeu, et cela sera analysé ci-dessous dans la section Analyse, mais cela apporte également d’énormes avantages. À savoir:
 
-Disponibilité - Les radiodiffuseurs seront en mesure de s'assurer que les orchestrateurs sont disponibles pour effectuer du travail avant de passer un contrat avec eux.
-Redondance - Si un orchestrateur n'est pas disponible avant ou pendant le travail, passez simplement à un autre orchestrateur. Ou commencez par travailler avec plusieurs orchestrateurs en premier lieu pour la redondance.
-Vitesse - Commencez le travail immédiatement. Il n'est pas nécessaire d'attendre une confirmation sur la chaîne.
-Rentable - Il n'y a pas de coûts liés au travail sur la chaîne ou au gaz associés à la demande de service sur le réseau.
+* **Disponibilité** - Les radiodiffuseurs seront en mesure de s'assurer que les orchestrateurs sont disponibles pour effectuer du travail avant de passer un contrat avec eux.
+* **Redondance** - Si un orchestrateur n'est pas disponible avant ou pendant le travail, passez simplement à un autre orchestrateur. Ou commencez par travailler avec plusieurs orchestrateurs en premier lieu pour la redondance.
+* **Vitesse** - Commencez le travail immédiatement. Il n'est pas nécessaire d'attendre une confirmation sur la chaîne.
+* **Rentable** - Il n'y a pas de coûts liés au travail sur la chaîne ou au gaz associés à la demande de service sur le réseau.
 
 Pour mener une négociation, un radiodiffuseur interagira avec le protocole suivant:
 
-Lisez le registre de service et analysez tous les orchestrateurs disponibles qui correspondent aux paramètres de service et d'emplacement demandés, avec la participation minimale requise.
-Ils utiliseront ensuite les informations de connectivité fournies pour envoyer une requête de travail à chacun d'entre eux.
-Une demande de travail contient le service demandé et l'emplacement demandé (facultatif).
-Les orchestrateurs répondent le plus rapidement possible avec un devis pour effectuer le travail, s’ils souhaitent le concurrencer et qu’ils sont disponibles.
-Les orchestrateurs incluent également des paramètres de micropaiements probabilistes dans leur offre de prix (décrite ci-dessous).
-Les radiodiffuseurs collectent ces données de réponse, ainsi que les temps de réponse des orchestrateurs.
-Ils utilisent leur propre algorithme interne en prenant en compte les préférences en matière de temps de réponse, de prix, d’historique de travail, de paramètres de gestion de projet, de redondance, de sécurité sous forme de mise, afin de choisir le ou les orchestrateurs avec lesquels travailler.
-Ils commencent à envoyer des segments vidéo et des tickets PM au (x) orchestrateur (s) sélectionné (s).
-orchestrateur vérifie le dépôt de chaîne du télédiffuseur sur la chaîne et, si le niveau de dépôt est suffisant, il renvoie le segment encodé au télédiffuseur.
+1. Lisez le registre de service et analysez tous les orchestrateurs disponibles qui correspondent aux paramètres de service et d'emplacement demandés, avec la participation minimale requise.
+1. Ils utiliseront ensuite les informations de connectivité fournies pour envoyer une requête de travail à chacun d'entre eux.
+    1. Une demande de travail contient le service demandé et l'emplacement demandé (facultatif).
+1. Les orchestrateurs répondent le plus rapidement possible avec un devis pour effectuer le travail, s’ils souhaitent le concurrencer et qu’ils sont disponibles.
+    1. Les orchestrateurs incluent également des paramètres de micropaiements probabilistes dans leur offre de prix (décrite ci-dessous).
+1. Les radiodiffuseurs collectent ces données de réponse, ainsi que les temps de réponse des orchestrateurs.
+1. Ils utilisent leur propre algorithme interne en prenant en compte les préférences en matière de temps de réponse, de prix, d’historique de travail, de paramètres de gestion de projet, de redondance, de sécurité sous forme de mise, afin de choisir le ou les orchestrateurs avec lesquels travailler.
+1. Ils commencent à envoyer des segments vidéo et des tickets PM au (x) orchestrateur (s) sélectionné (s).
+1. L'orchestrateur vérifie le dépôt de chaîne du télédiffuseur sur la chaîne et, si le niveau de dépôt est suffisant, il renvoie le segment encodé au télédiffuseur.
 
 Il est clair que l'étape 5 de ce protocole laisse beaucoup à la mise en œuvre. En résumé, les radiodiffuseurs peuvent choisir leurs propres orchestrateurs et n’ont pas besoin de suivre la chaîne pour annoncer le travail ou d’en obtenir un.
 
 Ils peuvent travailler avec leur propre orchestrateur s’ils le souhaitent, puis ne commencer à envoyer des segments qu’à un autre candidat lorsqu’ils atteignent leur propre capacité de calcul. Ils peuvent travailler avec le même node avec lequel ils entretiennent une relation de longue date et ne basculer vers un autre lorsque ce node tombe en panne ou devient indisponible. Ils peuvent commencer avec un encodage de processeur redondant 5x dès le début pour un flux en direct premium très important, ou utiliser l'encodage GPU le moins cher possible dans le monde pour un travail à la demande très peu fiable afin de réduire les coûts.
 
-
+<img src="https://livepeer-dev.s3.amazonaws.com/docs/pricenegotiation.jpg" alt="Offchain Job Negotiation" style="width: 750px">
 
 La commutation et l'ajout de redondance n'introduisent aucun surcoût de coût de transaction en chaîne pour le radiodiffuseur, alors que dans la version alpha du protocole, la commutation nécessite une transaction en chaîne supplémentaire et des temps de confirmation supérieurs à 15-30 secondes.
 
