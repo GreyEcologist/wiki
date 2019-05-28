@@ -236,71 +236,71 @@ Chaque fois que le transcodeur constate qu'il ne reçoit plus de segments, il pe
 
 #### Fin du Travail
 
-Transcodeur -> Livepeer Smart Contract: Appelez ClaimWork (JobID, StartSegmentSeq #, EndSegmentSeq #, MerkleRoot). Transcoder affirme sur la chaîne qu'il a effectué un travail sur la plage de segment revendiquée, avec une racine centrale de toutes les données de réception de transcodage afin de valider le contenu de ces segments codés.
-Attendez que cette transaction soit minée et observez le prochain blockhash. Le protocole peut ensuite déterminer quels segments seront vérifiés sur la base du VerificationRate.
-Transcodeur -> Swarm: écrivez les charges utiles de données d'entrée pour les segments qui seront contestés via la vérification, en utilisant les paramètres SWEAR pour vous assurer que les données seront là assez longtemps pour la vérification (heure de VerificationPeriod).
-Transcodeur -> Contrat Livepeer Smart: fournissez des revendications de transcodage sur la chaîne pour chaque segment à vérifier, ainsi que des épreuves de type Merkle pour les reçus de chaque segment des revendications de transcodage. Le contrat intelligent peut vérifier les signatures de Broadcaster et de Transcoder pour s'assurer que toutes les données nécessaires sont disponibles pour effectuer la vérification, et peut également vérifier les preuves de fond de référence par rapport à la racine de fond de mot de passe validée de ClaimWork().
-Transcodeur -> Truebit: Verify(). Il s’agit d’un appel en chaîne du contrat intelligent Truebit, dans lequel Transcoder fournit le hachage d’entrée Swarm pour le segment en question. (Plus d'informations sur la vérification dans la section suivante)
-Truebit -> Livepeer Smart Contract: le résultat du travail est écrit en chaîne. Ceci est comparé au résultat de la revendication de transcodage fourni par le transcodeur.
-Contrat Livepeer Smart: à ce stade, le contrat Livepeer Smart dispose de toutes les informations nécessaires pour déterminer si le travail du transcodeur est vérifié. Si la vérification est correcte, utilisez-le comme entrée dans l'algorithme d'allocation de tokens et libérez les frais bloqués. - S'il est incorrect, Transcoder et ses opérateurs se verrouillent avec FailedVerificationSlashAmount et le diffuseur est remboursé.
+10. **Transcodeur** -> **Livepeer Smart Contract**: Appelez `ClaimWork (JobID, StartSegmentSeq #, EndSegmentSeq #, MerkleRoot)`. Transcoder affirme sur la chaîne qu'il a effectué un travail sur la plage de segment revendiquée, avec une racine centrale de toutes les données de réception de transcodage afin de valider le contenu de ces segments codés.
+11. Attendez que cette transaction soit minée et observez le prochain blockhash. Le protocole peut ensuite déterminer quels segments seront vérifiés sur la base du `VerificationRate`.
+12. **Transcodeur** -> **Swarm**: écrivez les charges utiles de données d'entrée pour les segments qui seront contestés via la vérification, en utilisant les paramètres SWEAR pour vous assurer que les données seront là assez longtemps pour la vérification (heure de `VerificationPeriod`).
+13. **Transcodeur** -> **Contrat Livepeer Smart**: fournissez des revendications de transcodage sur la chaîne pour chaque segment à vérifier, ainsi que des épreuves de type Merkle pour les reçus de chaque segment des revendications de transcodage. Le contrat intelligent peut vérifier les signatures de Broadcaster et de **Transcodeur** pour s'assurer que toutes les données nécessaires sont disponibles pour effectuer la vérification, et peut également vérifier les preuves de fond de référence par rapport à la racine de fond de mot de passe validée de `ClaimWork()`.
+14. **Transcodeur** -> **Truebit**: Verify(). Il s’agit d’un appel en chaîne du contrat intelligent Truebit, dans lequel Transcoder fournit le hachage d’entrée Swarm pour le segment en question. (Plus d'informations sur la vérification dans la section suivante)
+15. **Truebit** -> **Livepeer Smart Contract**: le résultat du travail est écrit en chaîne. Ceci est comparé au résultat de la revendication de transcodage fourni par le transcodeur.
+16.  **Contrat Livepeer Smart**: à ce stade, le contrat Livepeer Smart dispose de toutes les informations nécessaires pour déterminer si le travail du transcodeur est vérifié. 
+    - Si la vérification est correcte, utilisez-le comme entrée dans l'algorithme d'allocation de tokens et libérez les frais bloqués. 
+    - S'il est incorrect, Transcoder et ses opérateurs se verrouillent avec `FailedVerificationSlashAmount` et le diffuseur est remboursé.
 
-Le radiodiffuseur peut arrêter d’envoyer des segments à n’importe quel moment, ce qui est effectivement un EndJob().
+Le radiodiffuseur peut arrêter d’envoyer des segments à n’importe quel moment, ce qui est effectivement un `EndJob()`.
 
 À ce stade, le transcodage a été effectué, la preuve du travail a été revendiquée sur la chaîne et l'échec ou le succès de la vérification du travail a été signalé. Toutes les informations sont en chaîne pour déterminer l'allocation des frais et des tokens aux transcodeurs et aux mandataires, ou la réduction en cas d'échec de la vérification. Voyons comment le travail est réellement vérifié.
 
+### Vérification du Travail
 
-Vérification du Travail
-
-Pour pouvoir allouer des frais aux transcodeurs qui affirment avoir effectué un travail de transcodage, il est nécessaire que le protocole puisse déterminer que le travail a été exécuté correctement avec une probabilité élevée. Pour cela, Livepeer étend ses recherches et utilise le protocole Truebit [6].
+Pour pouvoir allouer des frais aux transcodeurs qui affirment avoir effectué un travail de transcodage, il est nécessaire que le protocole puisse déterminer que le travail a été exécuté correctement avec une probabilité élevée. Pour cela, Livepeer étend ses recherches et utilise le protocole [Truebit](http://truebit.io) [[6](#Références)].
 
 Truebit fonctionne en laissant un participant (le solveur) effectuer le travail réel pour le prix, dans ce cas un transcodage, puis en demandant à des participants supplémentaires (vérificateurs) de vérifier le travail afin de détecter les erreurs, les erreurs ou la tricherie. La tâche est décomposée en très petites étapes et les vérificateurs vérifient le travail du solveur pour trouver la première étape qui diffère de ce à quoi ils s'attendaient. Ensuite, seul un très petit pas doit être joué en chaîne par un contrat intelligent (juge), qui peut dire quelle partie a fait le travail correctement. Les incitations économiques, y compris les erreurs forcées pour inciter les vérificateurs à effectuer des contrôles, garantissent qu’il n’est pas rentable de tricher ou de contester de manière incorrecte, mais qu’il est rentable de jouer le rôle de contrôle du travail.
 
-L'inconvénient de ce protocole est qu'il en coûte 5 à 50 fois plus cher que le travail original pour pouvoir vérifier tout le travail. Livepeer utilise Truebit comme boîte noire pour vérifier les segments, mais il évite de payer cette taxe de vérification très élevée en ne vérifiant qu'un petit pourcentage de segments de manière aléatoire et en utilisant des barres obliques en cas d'échec des vérifications. Le paramètre VerificationRate défini dans Livepeer détermine la fréquence à laquelle un segment spécifique doit être contesté dans Truebit, ainsi que le caractère aléatoire d’un hachage de bloc ultérieur après que le travail a été engagé dans la chaîne de blocs, détermine les segments spécifiquement sélectionnés.
+L'inconvénient de ce protocole est qu'il en coûte 5 à 50 fois plus cher que le travail original pour pouvoir vérifier tout le travail. Livepeer utilise Truebit comme boîte noire pour vérifier les segments, mais il évite de payer cette taxe de vérification très élevée en ne vérifiant qu'un petit pourcentage de segments de manière aléatoire et en utilisant des barres obliques en cas d'échec des vérifications. Le paramètre `VerificationRate` défini dans Livepeer détermine la fréquence à laquelle un segment spécifique doit être contesté dans Truebit, ainsi que le caractère aléatoire d’un hachage de bloc ultérieur après que le travail a été engagé dans la chaîne de blocs, détermine les segments spécifiquement sélectionnés.
 
-Si le travail est engagé via un appel ClaimWork() dans le bloc N, alors
+Si le travail est engagé via un appel `ClaimWork()` dans le bloc `N`, alors
 
-Si Sha3 (N, BlockHash (N), Seg #)% VerificationRate == 0, le segment # doit être vérifié.
+Si `Sha3 (N, BlockHash (N), Seg #)% VerificationRate == 0`, le segment # doit être vérifié.
 
 Le transcodeur fournit des revendications de transcodage sur la chaîne pour les segments candidats en appelant la transaction Verify(). Livepeer Smart Contract peut vérifier l'authenticité de ces revendications à l'aide des signatures internes et des preuves de validation fournies, puis appeler un appel à Truebit pour vérifier uniquement ces segments.
 
-Les solveurs et les vérificateurs Truebit accèdent aux données d'entrée d'un segment à partir d'un système de stockage à contenu persistant, tel que Swarm. Le transcodeur est chargé de vérifier que les données du segment sont disponibles dans Swarm et peut éventuellement rechercher des reçus du protocole SWEAR [5] garantissant la persistance pendant un certain temps, suffisamment long pour que Truebit puisse le lire. De plus, ils peuvent prendre eux-mêmes en charge l’exécution d’un nœud Swarm en s'assurant que les données sont disponibles pour la vérification Truebit. S'ils ont des raisons de croire que les données ne sont pas disponibles dans Swarm, ils peuvent les fournir ou simplement appeler ClaimWork() avec les données précédemment disponibles.
+Les solveurs et les vérificateurs Truebit accèdent aux données d'entrée d'un segment à partir d'un système de stockage à contenu persistant, tel que Swarm. Le transcodeur est chargé de vérifier que les données du segment sont disponibles dans Swarm et peut éventuellement rechercher des reçus du protocole SWEAR [[5](#Références)] garantissant la persistance pendant un certain temps, suffisamment long pour que Truebit puisse le lire. De plus, ils peuvent prendre eux-mêmes en charge l’exécution d’un nœud Swarm en s'assurant que les données sont disponibles pour la vérification Truebit. S'ils ont des raisons de croire que les données ne sont pas disponibles dans Swarm, ils peuvent les fournir ou simplement appeler `ClaimWork()` avec les données précédemment disponibles.
 
 Truebit écrit les résultats du calcul (réussi ou non) dans le contrat Livepeer Smart, qui peut ensuite être utilisé dans les calculs de récompense et de réduction dans le protocole. Un node de transcodage ne peut prédire à l'avance quels segments seront vérifiés, et les pénalités suivantes seront appliquées en cas de triche ou de non-transcodage correct:
 
-FailedVerificationSlashAmount sera réduit s'il échoue une vérification de Truebit.
-MissedVerificationSlashAmount sera réduite si elles ne parviennent pas à fournir les revendications de transcodage et invoquent Truebit sur les segments pour lesquels elles étaient tenues de le faire.
+- `FailedVerificationSlashAmount` sera réduit s'il échoue une vérification de Truebit.
+- `MissedVerificationSlashAmount` sera réduite si elles ne parviennent pas à fournir les revendications de transcodage et invoquent Truebit sur les segments pour lesquels elles étaient tenues de le faire.
 Frais perdus du diffuseur.
 Non seulement le transcodeur sera-t-il réduit, mais tous leurs délégués seront également réduits. Ils prendront ce compte en compte dans la décision de qui déléguer, et Transcoder pourrait perdre le travail lucratif qu’ils occupent.
 
 Il est important qu'il soit plus rentable de simplement miser LPT sur un transcodeur valide et honnêtement performant, plutôt que de tricher et de prendre des sanctions très sévères tout en percevant des frais et des allocations de jetons pour un travail malhonnête. Une sélection judicieuse des paramètres de réduction et du taux de vérification peut y contribuer.
 
-Une note sur Truebit
+#### Une note sur Truebit
 
-Bien que le protocole utilise Truebit pour permettre une vérification du travail totalement sans confiance, il peut s'avérer nécessaire en pratique d'utiliser les solutions disponibles qui fournissent une vérification sans le degré de confiance que Truebit peut offrir alors que Truebit est encore en développement et en test. Certaines options, classées par degré de confiance, incluent:
+*Bien que le protocole utilise Truebit pour permettre une vérification du travail totalement sans confiance, il peut s'avérer nécessaire en pratique d'utiliser les solutions disponibles qui fournissent une vérification sans le degré de confiance que Truebit peut offrir alors que Truebit est encore en développement et en test. Certaines options, classées par degré de confiance, incluent:*
 
-Oracle basé sur l'API Livepeer - Faites confiance à Livepeer pour vérifier le calcul. Très centralisé, pas idéal pour rien au-delà des tests.
-Service de calcul Oraclize - Faites confiance à une entreprise qui fournit des preuves de calcul et dont toute la réputation repose sur la mise en chaîne de données externes sur une chaîne avec des preuves que celles-ci n'ont pas été falsifiées.
-Enclaves matérielles sécurisées - Des services tels qu'Intel SGX ou TownCrier fournissent des environnements informatiques sécurisés. Confiance que leur implémentation matérielle est correcte et sécurisée. Cela peut être décentralisé et audité.
-
-
-Génération des Tokens
-
-Livepeer est inflationniste en ce sens que de nouveaux tokens seront générés et attribués dans le temps conformément au calendrier indiqué ci-dessous dans Distribution de tokens. Si tous les rôles dans Livepeer se comportent conformément au protocole, les tokens nouvellement générés seront attribués aux utilisateurs proportionnellement à leur mise en jeu (moins les frais). Les transcodeurs ont pour rôle d’appeler la fonction Reward() afin de déclencher la nouvelle attribution de token ou de nouvelles barres obliques pouvant être calculées à partir de toutes les données disponibles en chaîne.
-
-Chaque transcodeur devra appeler Reward () une fois par tour.
-
-Assurez-vous qu'un transcodeur actif appelle Reward().
-Assurez-vous que le transcodeur n'a pas encore appelé Récompense() dans ce tour.
-Calculez le nombre de tokens à generer en fonction du taux d'inflation. Generer ce nombre de tokens.
-Calculez la coupe du transcodeur en fonction de leur BlockRewardCut.
-Distribuez ceci dans la participation liée du transcodeur.
-Répartissez le reste dans le pool de récompenses des délégués.
-Mettez à jour le nombre de tokens liés à ce transcodeur.
-
-Si vous n’appelez pas Reward (), vous perdez une partie des attributions de jetons, ce qui nuit à la réputation de Transcoder lorsqu’il s’agit d’être élu par les mandants pour le rôle.
+*1. Oracle basé sur l'API Livepeer - Faites confiance à Livepeer pour vérifier le calcul. Très centralisé, pas idéal pour rien au-delà des tests.*
+*2. Service de calcul Oraclize - Faites confiance à une entreprise qui fournit des preuves de calcul et dont toute la réputation repose sur la mise en chaîne de données externes sur une chaîne avec des preuves que celles-ci n'ont pas été falsifiées.*
+*3. Enclaves matérielles sécurisées - Des services tels qu'Intel SGX ou TownCrier fournissent des environnements informatiques sécurisés. Confiance que leur implémentation matérielle est correcte et sécurisée. Cela peut être décentralisé et audité.*
 
 
-Slashing
+### Génération des Tokens
+
+Livepeer est inflationniste en ce sens que de nouveaux tokens seront générés et attribués dans le temps conformément au calendrier indiqué ci-dessous dans [Distribution de tokens](#distribution-de-tokens). Si tous les rôles dans Livepeer se comportent conformément au protocole, les tokens nouvellement générés seront attribués aux utilisateurs proportionnellement à leur mise en jeu (moins les frais). Les transcodeurs ont pour rôle d’appeler la fonction `Reward()` afin de déclencher la nouvelle attribution de token ou de nouvelles barres obliques pouvant être calculées à partir de toutes les données disponibles en chaîne.
+
+Chaque transcodeur devra appeler `Reward()` une fois par tour.
+
+- Assurez-vous qu'un transcodeur actif appelle `Reward()`.
+- Assurez-vous que le transcodeur n'a pas encore appelé `Récompense()` dans ce tour.
+- Calculez le nombre de tokens à generer en fonction du `InflationRate`. Generer ce nombre de tokens.
+- Calculez la coupe du transcodeur en fonction de leur `BlockRewardCut`.
+- Distribuez ceci dans la participation liée du transcodeur.
+- Répartissez le reste dans le pool de récompenses des délégués.
+- Mettez à jour le nombre de tokens liés à ce transcodeur.
+
+Si vous n’appelez pas `Reward()`, vous perdez une partie des attributions de jetons, ce qui nuit à la réputation de Transcoder lorsqu’il s’agit d’être élu par les mandants pour le rôle.
+
+### Slashing
 
 Comme mentionné précédemment, les conditions de slashing sont:
 
