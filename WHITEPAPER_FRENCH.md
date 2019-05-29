@@ -454,65 +454,43 @@ Le résultat final est un réseau évolutif, à la carte, pour la diffusion vid�
 
 ### Types de transaction de protocole Livepeer
 
-Transaction
-Description
-Bond()
-Obligation de liaison vers un transcodeur.
-Unbond()
-Entrez l'état non lié pour le fixe UnbondingPeriod.
-Transcoder()
-Déclarez vos intentions en tant que transcodeur.
-ResignAsTranscoder()
-Renoncez à vos intentions en tant que transcodeur.
-TranscodeAvailability()
-Ces transcodeurs sont actuellement ouvert à accepter un autre travail. Ils sont dans le pool pour être assignés au hasard sur de nouvelles offres d’emploi.
-Job()
-Soumettez un travail de transcodage sur une chaîne.
-EndJob()
-Terminez le travail pour abandonner la responsabilité de transcodage.
-Deposit()
-Soumettez un dépôt sur la chaîne qui sera utilisé et utilisé pour payer des emplois.
+| Transaction | Description |
+|----|------|
+| `Bond()` | Obligation de liaison vers un transcodeur. |
+| `Unbond()` | Entrez l'état non lié pour le fixe UnbondingPeriod. |
+| `Transcoder()` | Déclarez vos intentions en tant que transcodeur. |
+| `ResignAsTranscoder()` | Renoncez à vos intentions en tant que transcodeur. |
+| `TranscodeAvailability()` |  Ces transcodeurs sont actuellement ouvert à accepter un autre travail. Ils sont dans le pool pour être assignés au hasard sur de nouvelles offres d’emploi. |
+| `Job()` |  Soumettez un travail de transcodage sur une chaîne. |
+| `EndJob()` |  Terminez le travail pour abandonner la responsabilité de transcodage. |
+| `Deposit()` |  Soumettez un dépôt sur la chaîne qui sera utilisé et utilisé pour payer des emplois. |
+| `Withdraw()` | Retrait du dépôt et de la mise non liée. |
+| `ClaimWork()` | Terminez le travail de transcodage et indiquez quels segments vous pouvez prouver que vous avez transcodé via la plage de segments et la racine Merkle. |
+| `DistributeFees()` | Transcoder réclame les frais pour une réclamation particulière après vérification. |
+| `Reward()` | Toutes les vérifications sur la chaîne réduisent-elles ou distribuent-elles des allocations de tokens? Ne peut être invoqué que par un transcodeur actif dans le tour en cours, une fois par tour. |
+| `Verify()` | Transcoder fournit les revendications de transcodage pour les segments qui seront vérifiées avec les preuves de moukle pour comparaison avec la racine de Merkle de `ClaimWork()`. Appelez explicitement Truebit pour effectuer la vérification. |
+| `InitializeRound()` | Cette transaction doit être appelée une fois après le bloc de début de la nouvelle série pour initialiser le nouveau pool de transcodeurs actif. |
+| `UpdateDelegatorStake()` | Cela permet à un délégant de réclamer ses honoraires + l'allocation de tokens des tours précédents. Il est automatiquement appelé par dissociation et liaison, mais il constitue un élément de sécurité au cas où le délégant souhaite mettre à jour sans changer d'état. |
+| `*GovernanceTransactions()` | À déterminer. |
 
+## Références ###########################################
 
-Withdraw()
-Retrait du dépôt et de la mise non liée.
-ClaimWork()
-Terminez le travail de transcodage et indiquez quels segments vous pouvez prouver que vous avez transcodé via la plage de segments et la racine Merkle.
-DistributeFees()
-Transcoder réclame les frais pour une réclamation particulière après vérification.
-Reward()
-Toutes les vérifications sur la chaîne réduisent-elles ou distribuent-elles des allocations de tokens? Ne peut être invoqué que par un transcodeur actif dans le tour en cours, une fois par tour.
-Verify()
-Transcoder fournit les revendications de transcodage pour les segments qui seront vérifiées avec les preuves de moukle pour comparaison avec la racine de Merkle de
-ClaimWork(). Appelez explicitement Truebit pour effectuer la vérification.
-InitializeRound()
-Cette transaction doit être appelée une fois après le bloc de début de la nouvelle série pour initialiser le nouveau pool de transcodeurs actif.
-UpdateDelegatorStake()
-Cela permet à un délégant de réclamer ses honoraires + l'allocation de tokens des tours précédents. Il est automatiquement appelé par dissociation et liaison, mais il constitue un élément de sécurité au cas où le délégant souhaite mettre à jour sans changer d'état.
-*GovernanceTransactions()
-À déterminer.
-
-
-Références
-
-Ethereum White Paper - Vitalik Buterin - Ethereum Wiki - https://github.com/ethereum/wiki/wiki/White-Paper
-Fat Protocols - Joel Monegro - USV Blog - http://www.usv.com/blog/fat-protocols
-Crypto Tokens and the Coming Age of Protocol Innovation - Albert Wenger - http://continuations.com/post/148098927445/crypto-tokens-and-the-coming-age-of-protocol
-The Case For SectorCoins - Eric Tang - https://medium.com/@ericxtang/case-for-sectorcoins-b70a7c820c2d#.7892n4a57
-Delegated Proof-of-Stake Consensus - Daniel Larimer - https://bitshares.org/technology/delegated-proof-of-stake-consensus/
-Truebit - Jason Teutsch and Christian Reitweisner - https://people.cs.uchicago.edu/~teutsch/papers/truebit.pdf
-swap, swear and swindle, incentive system for swarm - viktor trón, aron fischer, dániel a. nagy, zsolt felföldi, nick johnson - http://swarm-gateways.net/bzz:/theswarm.eth/ethersphere/orange-papers/1/sw%5E3.pdf
-Kademlia: A Peer-to-peer Information System Based On The XOR Metric - Petar Maymounkov and David Mazieres https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf
-Steem Whitepaper - Daniel Larimer, Ned Scott, Valentine Zavgorodnev, Benjamin Johnson, James Calfee, Michael Vandeberg - https://steem.io/SteemWhitePaper.pdf
-Introducing Casper "the Friendly Ghost" - Vlad Zamfir - https://blog.ethereum.org/2015/08/01/introducing-casper-friendly-ghost/
-Tendermint Docs - Jae Kwon and Ethan Buchman - https://tendermint.com/docs
-Swarm - http://swarm-gateways.net/bzz:/theswarm.eth/
-Incentives Build Robustness in BitTorrent - Bram Cohen - http://bittorrent.org/bittorrentecon.pdf
-WebTorrent - https://webtorrent.io/
-Raiden Network - http://raiden.network/
-ERC20 Token Standard - https://github.com/ethereum/EIPs/issues/20
-Peer5 leverages viewers’ devices for a P2P approach to streaming video - https://techcrunch.com/2017/01/26/peer5-y-combinator/
-Peer-to-Peer Streaming Peer Protocol - https://tools.ietf.org/html/rfc7574
-Inflation and Participation in Stake Based Protocols - Doug Petkanics - https://medium.com/@petkanics/inflation-and-participation-in-stake-based-token-protocols-1593688612bf
-
-
+1. Ethereum White Paper - Vitalik Buterin - Ethereum Wiki - <https://github.com/ethereum/wiki/wiki/White-Paper>
+2. Fat Protocols - Joel Monegro - USV Blog - <http://www.usv.com/blog/fat-protocols>
+3. Crypto Tokens and the Coming Age of Protocol Innovation - Albert Wenger - <http://continuations.com/post/148098927445/crypto-tokens-and-the-coming-age-of-protocol>
+4. The Case For SectorCoins - Eric Tang - <https://medium.com/@ericxtang/case-for-sectorcoins-b70a7c820c2d#.7892n4a57>
+5. Delegated Proof-of-Stake Consensus - Daniel Larimer - <https://bitshares.org/technology/delegated-proof-of-stake-consensus/>
+6. Truebit - Jason Teutsch and Christian Reitweisner - <https://people.cs.uchicago.edu/~teutsch/papers/truebit.pdf>
+7. swap, swear and swindle, incentive system for swarm - viktor trón, aron fischer, dániel a. nagy, zsolt felföldi, nick johnson - <http://swarm-gateways.net/bzz:/theswarm.eth/ethersphere/orange-papers/1/sw%5E3.pdf>
+8. Kademlia: A Peer-to-peer Information System Based On The XOR Metric - Petar Maymounkov and David Mazieres <https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf>
+9. Steem Whitepaper - Daniel Larimer, Ned Scott, Valentine Zavgorodnev, Benjamin Johnson, James Calfee, Michael Vandeberg - <https://steem.io/SteemWhitePaper.pdf>
+10. Introducing Casper "the Friendly Ghost" - Vlad Zamfir - <https://blog.ethereum.org/2015/08/01/introducing-casper-friendly-ghost/>
+11. Tendermint Docs - Jae Kwon and Ethan Buchman - <https://tendermint.com/docs>
+12. Swarm - <http://swarm-gateways.net/bzz:/theswarm.eth/>
+13. Incentives Build Robustness in BitTorrent - Bram Cohen - <http://bittorrent.org/bittorrentecon.pdf>
+14. WebTorrent - <https://webtorrent.io/>
+15. Raiden Network - <http://raiden.network/>
+16. ERC20 Token Standard - <https://github.com/ethereum/EIPs/issues/20>
+17. Peer5 leverages viewers’ devices for a P2P approach to streaming video - <https://techcrunch.com/2017/01/26/peer5-y-combinator/>
+18. Peer-to-Peer Streaming Peer Protocol - <https://tools.ietf.org/html/rfc7574>
+19. Inflation and Participation in Stake Based Protocols - Doug Petkanics - <https://medium.com/@petkanics/inflation-and-participation-in-stake-based-token-protocols-1593688612bf>
