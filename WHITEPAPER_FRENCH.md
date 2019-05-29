@@ -432,65 +432,27 @@ Le résultat final est un réseau évolutif, à la carte, pour la diffusion vid�
 
 ### Référence de paramètre de protocole Livepeer
 
-Nom du paramètre
-Description
-Exemple de valeur
-T
-Longueur du segment en secondes.
-2 secondes
-N
-Nombre de transcodeurs actifs.
-144
-RoundLength
-Délai entre l'élection d'un nouveau cycle de transcodeurs.
-1 jour
-InflationRate
-Le taux d'inflation cible actuel par tour de LPT. (Se déplace algorithmiquement).
-.04% (equivalent de 15%/année)
-ParticipationRate
-Le pourcentage cible de token lié ou liquide.
-50%
-RoundLockAmount
-Les taux des transcodeurs se verrouillent pour ce pourcentage d'une partie à la fin d'une série afin que les mandataires puissent vérifier et déléguer en conséquence sans se soucier des modifications de taux de dernière minute.
-10% == 2.4 heures
-UnbondingPeriod
-Temps entre l’état non lié et la capacité retirée des fonds.
-1 mois
-VerificationPeriod
-Date limite de vérification d'une attestion de travaille après la soumission de cette attestation. Cette période sert également de délai minimum pour la réception d'une persistance des données dans la solution de stockage décentralisé.
-6 heures
-VerificationRate
-Le% de segments qui seront vérifiés.
-1/500
-FailedVerificationSlashAmount
-% à réduire en cas d'échec de la vérification (au-delà du seuil d'échec potentiel autorisé).
-5%
-MissedRewardSlashAmount
-% à réduire dans le cas où il manque un tour de récompense de bloc (peut-être le faire uniquement dans le cas de n manquements consécutifs).
-3%
-MissedVerificationSlashAmount
-% à réduire si le transcodeur n’appelle pas la vérification.
-10%
-CompetitivenessTolerance
-Si tous les transcodeurs étaient toujours disponibles et fixaient le même prix et les mêmes frais, ils recevraient un travail proportionnel à leur participation. Ce paramètre définit le % qu'ils doivent être dans ce travail cible % pour pouvoir prétendre à une allocation de jetons. Cela empêche les transcodeurs de faire très peu de travail par rapport à leur enjeu.
-90% (Exemple extrême. Avec 100 transcodeurs et 100 000 segments, cela signifie que je vais bien si je n'ai fait que 100 segments (10% des 1 000 que je devais faire)).
+| Nom du paramètre | Description | Exemple de valeur | 
+|----|------|---|
+| `T` | Longueur du segment en secondes. | 2 secondes |
+| `N` | Nombre de transcodeurs actifs. | 144 |
+| `RoundLength` | Délai entre l'élection d'un nouveau cycle de transcodeurs. | 1 jour |
+| `InflationRate` | Le taux d'inflation cible actuel par tour de LPT. (Se déplace algorithmiquement). | .04% (equivalent de 15%/année) |
+| `ParticipationRate` | Le pourcentage cible de token lié ou liquide. | 50% |
+| `RoundLockAmount` | Les taux des transcodeurs se verrouillent pour ce pourcentage d'une partie à la fin d'une série afin que les mandataires puissent vérifier et déléguer en conséquence sans se soucier des modifications de taux de dernière minute. | 10% == 2.4 heures |
+| `UnbondingPeriod` | Temps entre l’état non lié et la capacité retirée des fonds. | 1 mois |
+| `VerificationPeriod` | Date limite de vérification d'une attestion de travaille après la soumission de cette attestation. Cette période sert également de délai minimum pour la réception d'une persistance des données dans la solution de stockage décentralisé. | 6 heures |
+| `VerificationRate` | Le % de segments qui seront vérifiés. | 1/500 |
+| `FailedVerificationSlashAmount` | % à réduire en cas d'échec de la vérification (au-delà du seuil d'échec potentiel autorisé). | 5% |
+| `MissedRewardSlashAmount` | % à réduire dans le cas où il manque un tour de récompense de bloc (peut-être le faire uniquement dans le cas de n manquements consécutifs). | 3% |
+| `MissedVerificationSlashAmount` | % à réduire si le transcodeur n’appelle pas la vérification. | 10% |
+| `CompetitivenessTolerance` | Si tous les transcodeurs étaient toujours disponibles et fixaient le même prix et les mêmes frais, ils recevraient un travail proportionnel à leur participation. Ce paramètre définit le % qu'ils doivent être dans ce travail cible % pour pouvoir prétendre à une allocation de jetons. Cela empêche les transcodeurs de faire très peu de travail par rapport à leur enjeu. | 90% (Exemple extrême. Avec 100 transcodeurs et 100 000 segments, cela signifie que je vais bien si je n'ai fait que 100 segments (10% des 1 000 que je devais faire)). |
+| `*SlashingThresholds` (TBD) | Espace réservé pour indiquer que nous ne pouvons pas réduire toutes les pannes, uniquement si elles dépassent un certain seuil de % de taux de défaillance. | |
+| `VerificationFailureThreshold` | % des vérifications que vous pouvez échouer sans être coupé. Utile en raison de dépendances externes telles que Swarm / Truebit qui pourraient provoquer une défaillance sporadique. | 1% |
+| `FinderFee` | % du montant de la barre oblique que le viseur recevra à titre de compensation. | 5% |
+| `SlashingPeriod` | Le délai pour invoquer une condition de barre oblique après la VerificationPeriod a completé. | 1 heure |
 
-
-*SlashingThresholds (TBD)
-Espace réservé pour indiquer que nous ne pouvons pas réduire toutes les pannes, uniquement si elles dépassent un certain seuil de % de taux de défaillance.
-
-
-VerificationFailureThreshold
-% des vérifications que vous pouvez échouer sans être coupé. Utile en raison de dépendances externes telles que Swarm / Truebit qui pourraient provoquer une défaillance sporadique.
-1%
-FinderFee
-% du montant de la barre oblique que le viseur recevra à titre de compensation.
-5%
-SlashingPeriod
-Le délai pour invoquer une condition de barre oblique après la VerificationPeriod a completé.
-1 heure
-
-Types de transaction de protocole Livepeer
+### Types de transaction de protocole Livepeer
 
 Transaction
 Description
