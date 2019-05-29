@@ -398,7 +398,7 @@ Les `Segments` étant l’unité de base du flux de données sur le réseau, il 
 
 Il est important de noter que bien que la comptabilité de bande passante puisse être utilisée pour rentabiliser les nodes relais qui transmettent simplement des segments vidéo sur le réseau pour augmenter la capacité, à la CDN, ces nodes sont uniquement motivés par la demande de contenu, et pas incité par de nouvelles attributions de tokens. En fait, la sortie de Livepeer peut être insérée dans un CDN traditionnel (comme Amazon S3, Cloudflare, etc.) ou décentralisé (comme IPFS ou Swarm). Le développement de ce protocole peer-to-peer pour la distribution de segment vidéo sera une opportunité permanente d'optimisation et d'amélioration des performances.
 
-Il a été démontré que les réseaux CDN d'égal à égal réduisent de 80 à 98% les besoins en bande passante sur un serveur CDN d'origine [[17](#Références)], et la mécanique des jetons observée dans les réseaux décentralisés peut permettre aux parties prenantes de s'aligner sur le développement et la maintenance d'une version ouverte du système propriétaire P2N CDN qui existent aujourd'hui. Le protocole PPSPP [[18]](#Références)] constitue un candidat viable pour une mise en œuvre ouverte axée sur la diffusion de contenu en direct.
+Il a été démontré que les réseaux CDN d'égal à égal réduisent de 80 à 98% les besoins en bande passante sur un serveur CDN d'origine [[17](#Références)], et la mécanique des jetons observée dans les réseaux décentralisés peut permettre aux parties prenantes de s'aligner sur le développement et la maintenance d'une version ouverte du système propriétaire P2N CDN qui existent aujourd'hui. Le protocole PPSPP [[18](#Références)] constitue un candidat viable pour une mise en œuvre ouverte axée sur la diffusion de contenu en direct.
 
 En tant que facteur non critique pour la crypto-économie du protocole Livepeer, les détails sont épargnés par ce document, mais les personnes intéressées peuvent [suivre ici](https://github.com/livepeer/go-livepeer) le développement et rechercher un futur document traitant uniquement du protocole de distribution vidéo.
 
@@ -406,34 +406,31 @@ En tant que facteur non critique pour la crypto-économie du protocole Livepeer,
 
 Le projet Livepeer concerne la décentralisation de la diffusion vidéo en direct un à plusieurs (multidiffusion). Il s’agit de la forme la plus authentique de diffusion dans les médias, car elle permet à un radiodiffuseur de se connecter directement avec son auditoire, de manière directe, sans altération, interprétation après coup ni effet. Cela donne à chacun une tribune pour s'exprimer. Les solutions centralisées existantes peuvent pâtir de la censure, du contrôle de tiers sur les données / relations / monétisation des utilisateurs et des structures de coûts inefficaces liées au paiement du service. Voici quelques cas d’utilisation logique pour les applications et les services à construire sur Livepeer.
 
-Consommation de Contenu à la Carte
+### Consommation de Contenu à la Carte
 
 Avec une transaction de transfert de valeur intégrée au protocole, il est désormais possible pour les radiodiffuseurs de facturer directement aux téléspectateurs la consommation de leur diffusion en direct, sans nécessiter de carte de crédit, de compte ni de contrôle de l'identité de l'utilisateur via une plate-forme centralisée. Cela a des applications dans l'éducation (payer pour assister à un cours en ligne), événements (payer pour voir un concert ou un événement sportif en direct), divertissement (payer pour regarder le flux en direct d'un joueur ou d'un artiste), et de nombreux autres cas d'utilisation - tout en préservant la la vie privée du spectateur et lui permettant de ne payer que ce qu’il consomme directement au radiodiffuseur.
 
-Mise à l'Echelle Automatique des Services de Vidéo Sociale
+### Mise à l'Echelle Automatique des Services de Vidéo Sociale
 
 L'un des défis de la création de services vidéo grand public consiste aujourd'hui à faire évoluer l'infrastructure pour répondre à la demande liée au nombre croissant de flux et au nombre croissant de consommateurs à mesure que de nouveaux utilisateurs s'ajoutent. Une couche de services qui laisse facilement les développeurs commencer à construire leur solution vidéo sur le réseau Livepeer, qui évoluera automatiquement pour prendre en charge un nombre illimité de flux et de visionneuses au fur et à mesure, constituera une solution bienvenue pour les développeurs d’infrastructure qui, sinon, devraient continuer à provisionner serveurs, octroyer des licences aux serveurs de médias et gérer efficacement les ressources pour gérer les pointes.
 
-Journalisme en Direct Sans Censure
+### Journalisme en Direct Sans Censure
 
 Les plates-formes actuelles telles que Twitter et Facebook offrent des solutions vidéo en direct incroyables pour atteindre un large public, mais elles sont également les premières à être bloquées ou censurées dans diverses situations de conflit politique. L'utilisation d'un réseau décentralisé tel que Livepeer rendrait presque impossible d'empêcher le mot de s'exprimer sur ce qui se passe réellement sur le terrain en temps réel.
 
-DApps vidéo activés
+### DApps vidéo activés
 
 Les applications décentralisées (DApps) commencent à émerger, principalement grâce à l'écosystème Ethereum. Cependant, à ce jour, il n’existait pas de solution viable pour incorporer de la vidéo en direct dans un DApp sans utiliser de solution centralisée ni limiter le nombre de clients consommateurs en fonction des contraintes de WebRTC. En introduisant Livepeer dans la pile, une application peut être entièrement décentralisée, tout en conservant la vidéo en direct, à grande échelle, pour autant d'utilisateurs que de le souhaiter.
 
-
-Résumé
+## Résumé ###########################################
 
 En résumé, le protocole Livepeer incite les nodes à apporter leur traitement et leur bande passante au réseau au service du transcodage et de la distribution de vidéo en direct. La vérification du travail est résolue par une extension évolutive s'ajoutant au protocole Truebit, qui incite les nœuds à effectuer correctement les opérations de transcodage afin de gagner leurs frais et les allocations de jetons et de préserver leur rôle de transcodeur. La gamification du réseau et le problème de faux travail sont résolus via l’économie de la preuve déléguée de la comptabilisation des récompenses de bloc de mise. Il devient économiquement plus rationnel de simplement investir ses tokens vers un node à valeur ajoutée plutôt que de payer des frais sur le réseau pour les distribuer à d'autres délégants lors de l'exécution de travaux pour lesquels il n'existait pas vraiment de demande.
 
 Le résultat final est un réseau évolutif, à la carte, pour la diffusion vidéo en direct décentralisée - une couche manquante dans la pile web3 que Livepeer cherche à remplir.
 
+## Appendice ###########################################
 
-Appendice
-
-Référence de paramètre de protocole Livepeer
-
+### Référence de paramètre de protocole Livepeer
 
 Nom du paramètre
 Description
