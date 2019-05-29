@@ -279,8 +279,8 @@ Il est important qu'il soit plus rentable de simplement miser LPT sur un transco
 
 *Bien que le protocole utilise Truebit pour permettre une vérification du travail totalement sans confiance, il peut s'avérer nécessaire en pratique d'utiliser les solutions disponibles qui fournissent une vérification sans le degré de confiance que Truebit peut offrir alors que Truebit est encore en développement et en test. Certaines options, classées par degré de confiance, incluent:*
 
-*1. Oracle basé sur l'API Livepeer - Faites confiance à Livepeer pour vérifier le calcul. Très centralisé, pas idéal pour rien au-delà des tests.*
-*2. Service de calcul Oraclize - Faites confiance à une entreprise qui fournit des preuves de calcul et dont toute la réputation repose sur la mise en chaîne de données externes sur une chaîne avec des preuves que celles-ci n'ont pas été falsifiées.*
+*1. Oracle basé sur l'API Livepeer - Faites confiance à Livepeer pour vérifier le calcul. Très centralisé, pas idéal pour rien au-delà des tests.*  
+*2. Service de calcul Oraclize - Faites confiance à une entreprise qui fournit des preuves de calcul et dont toute la réputation repose sur la mise en chaîne de données externes sur une chaîne avec des preuves que celles-ci n'ont pas été falsifiées.*  
 *3. Enclaves matérielles sécurisées - Des services tels qu'Intel SGX ou TownCrier fournissent des environnements informatiques sécurisés. Confiance que leur implémentation matérielle est correcte et sécurisée. Cela peut être décentralisé et audité.*
 
 
@@ -304,84 +304,87 @@ Si vous n’appelez pas `Reward()`, vous perdez une partie des attributions de j
 
 Comme mentionné précédemment, les conditions de slashing sont:
 
-Échec d'une vérification
-Avoir omis d'invoquer la vérification lorsqu'il est requis de le faire
-Ne pas effectuer une part proportionnelle du travail requis sur la plate-forme en fonction de la participation déléguée
+- Échec d'une vérification
+- Avoir omis d'invoquer la vérification lorsqu'il est requis de le faire
+- Ne pas effectuer une part proportionnelle du travail requis sur la plate-forme en fonction de la participation déléguée
+
 L'un des avantages de l'intégration dans l'écosystème Ethereum réside dans les effets réseau que vous pouvez tirer du fait de pouvoir vous baser sur d'autres protocoles tels que Truebit et Swarm / SWEAR. Malheureusement, avec la dépendance de ces systèmes externes, qui eux-mêmes ont des dépendances et des incitations externes, il est possible qu’une faille ou une faiblesse de l’un de ces protocoles entraîne une réduction des coûts dans Livepeer.
-Par exemple, si un travail de vérification Truebit restait dans leur file d'attente pendant une longue période sans qu'aucun solveur ou vérificateur ne le réclame, Livepeer ne verrait pas le résultat de cette vérification à temps avant l'appel de Reward(). Ou si le réseau Swarm subissait une partition et ne pouvait pas propager le fichier au vérificateur Truebit à temps, cela pourrait également créer un problème.
-Ces risques peuvent être atténués en incitant les participants au protocole Livepeer à jouer ces rôles en interne, qui pourraient juger dans leur intérêt de servir de vérificateurs Truebit ou de nodes Swarm. Mais il existe aussi une autre approche qui introduit le concept de seuils de probabilité sur les paramètres de réduction. Des variables de protocole facultatives telles que VerificationFailureThreshold peuvent être définies pour indiquer que, tant que le noeud réussit 99% des vérifications, elles ne seront pas réduites par exemple. Cela restera un autre domaine de recherche à élaborer avant le déploiement du réseau.
 
-L'échec de l'appel de la condition de barre de vérification peut être vérifié et invoqué par tout participant au protocole Livepeer. Il existe un FinderFee qui spécifie le pourcentage du montant de la barre oblique que le chercheur recevra comme récompense pour avoir invoqué avec succès cette condition de réduction.
+Par exemple, si un travail de vérification Truebit restait dans leur file d'attente pendant une longue période sans qu'aucun solveur ou vérificateur ne le réclame, Livepeer ne verrait pas le résultat de cette vérification à temps avant l'appel de `Reward()`. Ou si le réseau Swarm subissait une partition et ne pouvait pas propager le fichier au vérificateur Truebit à temps, cela pourrait également créer un problème.
 
-Le reste des fonds réduits entrera dans le CommonPool, qui peut être utilisé ou alloué à des utilisations communes telles que le développement ultérieur de l'écosystème, conformément au mécanisme de gouvernance du protocole.
+Ces risques peuvent être atténués en incitant les participants au protocole Livepeer à jouer ces rôles en interne, qui pourraient juger dans leur intérêt de servir de vérificateurs Truebit ou de nodes Swarm. Mais il existe aussi une autre approche qui introduit le concept de seuils de probabilité sur les paramètres de réduction. Des variables de protocole facultatives telles que `VerificationFailureThreshold` peuvent être définies pour indiquer que, tant que le noeud réussit 99% des vérifications, elles ne seront pas réduites par exemple. Cela restera un autre domaine de recherche à élaborer avant le déploiement du réseau.
 
-Distribution de Tokens
+L'échec de l'appel de la condition de barre de vérification peut être vérifié et invoqué par tout participant au protocole Livepeer. Il existe un `FinderFee` qui spécifie le pourcentage du montant de la barre oblique que le chercheur recevra comme récompense pour avoir invoqué avec succès cette condition de réduction.
+
+Le reste des fonds réduits entrera dans le `CommonPool`, qui peut être utilisé ou alloué à des utilisations communes telles que le développement ultérieur de l'écosystème, conformément au mécanisme de gouvernance du protocole.
+
+### Distribution de Tokens
 
 En tant que token qui représente la capacité de participer et d’effectuer des travaux sur le réseau via un algorithme d’implantation DPoS, la distribution initiale du token Livepeer suivra les modèles d’autres systèmes DPoS qui nécessitent un état de genèse largement distribué.
 
 Une attribution initiale du jeton sera distribuée à la communauté à la genèse et aux premières étapes du réseau. Les destinataires peuvent l'utiliser pour jouer le rôle de transcodeur ou de délégant. Une partie sera allouée aux groupes ayant fourni du travail préalable et de l'argent pour le protocole avant la genèse, et une partie sera dotée pour le développement à long terme du projet principal.
 
-Lors du lancement du réseau, l'émission de tokens se poursuivra selon un calendrier inflationniste, le token étant généré à InflationRate par tour par rapport au flottant de tokens en circulation. Comme le token est émis proportionnellement à la participation de tous les participants cautionnés au protocole, il sert à encourager la participation active. Les participants sont "protégés" de cette inflation, car ils gagnent leur part proportionnelle. Ce ne sont que les participants inactifs qui restent assis sur un token sans le céder à la participation, et qui verront la propriété de leur réseau proportionnelle réduite à néant par cette inflation.
+Lors du lancement du réseau, l'émission de tokens se poursuivra selon un calendrier inflationniste, le token étant généré à `InflationRate` par tour par rapport au flottant de tokens en circulation. Comme le token est émis proportionnellement à la participation de tous les participants cautionnés au protocole, il sert à encourager la participation active. Les participants sont "protégés" de cette inflation, car ils gagnent leur part proportionnelle. Ce ne sont que les participants inactifs qui restent assis sur un token sans le céder à la participation, et qui verront la propriété de leur réseau proportionnelle réduite à néant par cette inflation.
 
-L’objectif initial d’InflationRate sera fixé de manière à inciter environ ParticipationRate à être lié et à participer activement [19). Par exemple, si ParticipationRate est égal à 50%, des incitations existent pour que la moitié du token exceptionnel soit liée. Le taux d'inflation évoluera de manière algorithmique à chaque tour pour inciter la cible de participation. Un taux d'inflation plus élevé inciterait davantage de personnes à être liées, et un taux plus bas inciterait davantage de personnes à choisir des liquidités plutôt que de participer. C'est ce compromis entre la préférence de liquidité et le pourcentage de propriété du réseau qui devrait trouver un équilibre en raison d'un certain nombre de facteurs économiques du réseau.
+L’objectif initial pour `InflationRate` sera fixé de manière à inciter environ ParticipationRate à être lié et à participer activement [[19](#Références)). Par exemple, si `ParticipationRate` est égal à 50%, des incitations existent pour que la moitié du token exceptionnel soit liée. Le taux d'inflation évoluera de manière algorithmique à chaque tour pour inciter la cible de participation. Un taux d'inflation plus élevé inciterait davantage de personnes à être liées, et un taux plus bas inciterait davantage de personnes à choisir des liquidités plutôt que de participer. C'est ce compromis entre la préférence de liquidité et le pourcentage de propriété du réseau qui devrait trouver un équilibre en raison d'un certain nombre de facteurs économiques du réseau.
 
-La gouvernance
+### La gouvernance
 
 Le rôle de la gouvernance dans le protocole Livepeer est destiné à être triple:
 
-Déterminez si vous brûlez ou appropriez des fonds communs qui ont été éliminés des nœuds qui se comportent mal.
-Ajustez les paramètres du réseau pour assurer un réseau sain et prospère, ce qui est précieux pour les diffuseurs.
-Invoquez les mises à jour de protocole proposées de manière décentralisée.
+1. Déterminez si vous brûlez ou appropriez des fonds communs qui ont été éliminés des nœuds qui se comportent mal.
+2. Ajustez les paramètres du réseau pour assurer un réseau sain et prospère, ce qui est précieux pour les diffuseurs.
+3. Invoquez les mises à jour de protocole proposées de manière décentralisée.
 
-De nombreux paramètres de réseau référencés dans ce document, tels que UnbondingPeriod, RoundLength, ParticipationRate et VerificationRate, sont ajustables. Des propositions d'ajustement de ces paramètres peuvent être soumises et le processus de gouvernance, y compris le vote par transcodeurs proportionnellement à leur participation déléguée, déterminera automatiquement l'adoption de ces modifications dans le protocole. La spécification détaillée pour la gouvernance est laissée pour un autre document. Voir plus ici.
+De nombreux paramètres de réseau référencés dans ce document, tels que `UnbondingPeriod`, `RoundLength`, `ParticipationRate` et `VerificationRate`, sont ajustables. Des propositions d'ajustement de ces paramètres peuvent être soumises et le processus de gouvernance, y compris le vote par transcodeurs proportionnellement à leur participation déléguée, déterminera automatiquement l'adoption de ces modifications dans le protocole. La spécification détaillée pour la gouvernance est laissée pour un autre document. [Voir plus ici](https://github.com/livepeer/wiki/wiki/Governance).
 
 
-Les Attaques
+## Les Attaques
 
 Cette section décrit les différentes manières dont des acteurs malveillants peuvent tenter d’attaquer le réseau Livepeer. Nous utilisons un modèle d'attaquant rationnel dans lequel l'attaquant prend des décisions en fonction de son propre intérêt économique. Un certain nombre d'attaques sont atténuées du fait qu'il est non rentable de mener de telles attaques, mais nous nous efforçons également de faire en sorte qu'au pire, le réseau subisse une perte d'efficacité dans le cas d'une attaque non rentable prolongée et ne subisse aucune défaillance.
 
-Attaques de consensus
+## Attaques de consensus
 
 Comme mentionné précédemment, le consensus dans l'écosystème Livepeer est fourni par la plate-forme de blockchain sous-jacente (Ethereum par exemple). 51% d'attaques, le double-dépense de Livepeer token et les fourches du réseau nécessiteraient les mêmes ressources et le même coût d'attaque que Ethereum lui-même.
 
 Livepeer is a protocole implicitement, et bien que les transcodeurs se sont déroulés dans le processus de vérification du processus et dans le processus de distribution des récompenses des tokens, ils n'ont pas encore été transformés en rôle ou en valeur. autres transcodeurs. Il n'y a pas de concept de chaîne ni de validation des blocs précédents. Il existe simplement des incitations économiques à vérifier son propre travail et à distribuer son propre part d'allocations de tokens lorsque c'est son tour. En tant que tel, que l'attaque s'est manifestée dans une preuve de protocole d'enjeu, que ce soit l'attaque à long terme, le problème il n'y a aucune possibilité de signer plusieurs blocs ou de créer. une chaîne plus longue d'un état antérieur. Cependant, vous êtes sûr que, lorsqu’il a fallu que la chaîne de télévision sous-jacente apparaisse, vous êtes menacé de mort.
 
 Bien que la sécurité de la blockchain sous-jacente soit efficace pour la prévention des attaques consensuelles, il existe toujours une classe d’attaques de qualité et d’efficacité pouvant nuire au réseau Livepeer.
-DDoS
+
+### DDoS
+
 Le déni de service dans Livepeer peut aller de deux manières:
 
-Un transcodeur peut essayer d'empêcher ou de ralentir un radiodiffuseur d'envoyer son flux codé sur le réseau en acceptant un travail mais en refusant le transcodage.
-Un radiodiffuseur peut empêcher un transcodeur de faire le travail qu’il croit avoir été assigné en refusant de leur envoyer des segments.
+1. Un transcodeur peut essayer d'empêcher ou de ralentir un radiodiffuseur d'envoyer son flux codé sur le réseau en acceptant un travail mais en refusant le transcodage.
+2. Un radiodiffuseur peut empêcher un transcodeur de faire le travail qu’il croit avoir été assigné en refusant de leur envoyer des segments.
 
 Les deux attaques ont un coût et peuvent être atténuées, avec une légère contrariété.
 
 Dans le premier cas, un transcodeur doit payer pour réclamer sa disponibilité en chaîne. S'ils ne reçoivent pas de frais parce qu'ils n'ont pas fait le travail, ils jettent l'ETH. Le radiodiffuseur peut simplement renvoyer le travail et se voir attribuer un nouveau transcodeur. Une option potentielle d’évolutivité est que le protocole puisse identifier un certain nombre de transcodeurs valides par ordre de priorité plutôt que par un seul, ce qui permet au radiodiffuseur de continuer sans autre transaction en chaîne. De plus, toutes les statistiques sur les travaux acceptés et le nombre moyen de segments transcodés / travail, etc., peuvent être calculées à partir de données sur la chaîne, et les mandataires l'utilisent pour entrer dans leur décision quant aux destinataires de la délégation. Tiens-toi mal et perds ton rôle.
 
-Dans le cas d’un radiodiffuseur empêchant un transcodeur de fonctionner, il s’agit simplement d’un calcul de planification de la capacité. Un node de transcodage peut conserver des enregistrements de sa capacité pour des travaux simultanés, de la probabilité qu'un travail soit actif / inactif, et s'assurer qu'il a toujours la conviction qu'il aura la capacité nécessaire pour le travail qu'il réclame. Le simple fait d'ignorer ou d'appeler EndJob() sur un node qui refuse d'envoyer des segments ne nuit guère au transcodeur.
+Dans le cas d’un radiodiffuseur empêchant un transcodeur de fonctionner, il s’agit simplement d’un calcul de planification de la capacité. Un node de transcodage peut conserver des enregistrements de sa capacité pour des travaux simultanés, de la probabilité qu'un travail soit actif / inactif, et s'assurer qu'il a toujours la conviction qu'il aura la capacité nécessaire pour le travail qu'il réclame. Le simple fait d'ignorer ou d'appeler `EndJob()` sur un node qui refuse d'envoyer des segments ne nuit guère au transcodeur.
 
-Transcodeur Inutile ou Autorégulant
+### Transcodeur Inutile ou Autorégulant
 
-Si un transcodeur dispose de suffisamment de participation pour conserver sa position, il pourrait théoriquement lister 100% BlockRewardCut, 0% FeeShare, et facturer un PricePerSegment élevé de sorte qu’il n’ait jamais à faire de travail, tout en pouvant collecter son allocation de tokens. Ceci est empêché par la CompétitivitéTolérance qui les oblige à fournir une certaine quantité de travail valable. De plus, en raison des coûts de transaction liés à la participation au protocole supportés par Transcoders, il serait plus rentable pour eux de s’en remettre simplement à un Transcoder valide partageant les frais avec eux, que de se comporter comme un Transcoder inutile ne recevrait aucun frais à proprement parler.
+Si un transcodeur dispose de suffisamment de participation pour conserver sa position, il pourrait théoriquement lister 100% `BlockRewardCut`, 0% `FeeShare`, et facturer un `PricePerSegment` élevé de sorte qu’il n’ait jamais à faire de travail, tout en pouvant collecter son allocation de tokens. Ceci est empêché par la `CompétitivitéTolérance` qui les oblige à fournir une certaine quantité de travail valable. De plus, en raison des coûts de transaction liés à la participation au protocole supportés par Transcoders, il serait plus rentable pour eux de s’en remettre simplement à un Transcoder valide partageant les frais avec eux, que de se comporter comme un Transcoder inutile ne recevrait aucun frais à proprement parler.
 
 Un Transcodeur qui se comporte mal et qui produit une sortie non valide se trouve rapidement réduit au point de voir son enjeu réduit trop bas pour pouvoir conserver son travail et recevoir du travail.
 
-Griefing du Transcodeur
+### Griefing du Transcodeur
 
 Si un radiodiffuseur souhaite rendre le protocole très coûteux à exploiter pour un transcodeur, il peut envoyer aux transcodeurs des numéros de segment non consécutifs. En effet, les transcodeurs peuvent prétendre travailler pour une plage continue de numéros de segment dans une transaction unique, mais ils doivent effectuer plusieurs transactions pour revendiquer un travail sur des plages de numéros de segment aléatoires. Cela peut être défendu par les options suivantes:
 
-Transcoder appelle EndJob() et ne se donne pas la peine de faire le travail ou d'essayer de percevoir les frais.
-Le protocole met en œuvre l'analyse en chaîne ou un meilleur codage de revendication de segment afin de réduire les frais associés à la revendication de segments non consécutifs dans un seul appel.
-Ignorez simplement les segments et ne réclamez jamais le travail.
+1. Transcoder appelle `EndJob()` et ne se donne pas la peine de faire le travail ou d'essayer de percevoir les frais.
+2. Le protocole met en œuvre l'analyse en chaîne ou un meilleur codage de revendication de segment afin de réduire les frais associés à la revendication de segments non consécutifs dans un seul appel.
+3. Ignorez simplement les segments et ne réclamez jamais le travail.
 
 Cette attaque a un coût élevé pour un radiodiffuseur car il doit disposer d’un dépôt et soumettre des travaux en chaîne afin d’être affecté à un transcodeur. Ils ont la capacité de rendre la vie agaçante pour un transcodeur et de perdre potentiellement en efficacité, mais sans endommager le réseau.
 
-Chain Reorg
+### Chain Reorg
 
 Lorsqu'un diffuseur soumet une tâche au Livepeer Smart Contract, le protocole utilise le hachage de bloc actuel pour déterminer le transcodeur auquel la tâche sera affectée. Les réorganisations de la blockchain sous-jacente peuvent être source de confusion dans ce scénario. Bien que ce ne soit pas "une attaque" directement, un transcodeur sera valide une seconde, puis lors de la réorganisation, ne sera plus valide. Quand une réorg est détectée, le diffuseur peut soit rediriger le flux vers le nouveau transcodeur valide, soit le protocole peut détecter les blocs oncle inclus dans la chaîne principale et considérer qu'un transcodeur est valide si un bloc oncle compris dans un seuil donné aurait fait les valides.
 
-
-
-Distribution Vidéo en Direct
+## Distribution Vidéo en Direct ###########################################
 
 Ce livre blanc s'est largement concentré sur les incitations économiques et le protocole permettant d'assurer un transcodage correct de la vidéo en direct, ce qui est nécessaire pour prendre en charge le streaming adaptatif au débit et atteindre chaque périphérique. La distribution de la vidéo sur l’ensemble du réseau est également importante, de sorte qu’elle puisse être consommée avec une qualité élevée et une latence faible. Les aspects économiques de la distribution reposent sur la comptabilité de bande passante tit-for-tat popularisée par Bittorrent et étendue via des protocoles tels que SWAP [13]. Pour simplifier, les nodes paient pour demander un segment de vidéo et les nodes sont payés pour desservir un segment de vidéo. Si un node a déjà un segment et peut le servir à plusieurs demandeurs, il est rentable. Nous appelons ce type de node, un node de relais.
 
